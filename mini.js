@@ -14,6 +14,7 @@
  ******************************************************************************/
 
 const perm = (...args) => {
+  if (args.length === 1) return args;
   const result = [];
   const permute = (arr, memo = []) => {
     let i, current;
@@ -35,6 +36,7 @@ console.log(perm('Scooby Snacks'));
 console.log(perm(1, 2, 3));
 console.log(perm('a', 'b', 'c', 'd'));
 console.log(perm('corn', 'turkey', 'winter', 'algebra', 'window'));
+console.log(perm(['Jesh', 'does', 'not', 'share', 'candy']));
 
 
 // const allAnagrams = (str, start = '') => {
