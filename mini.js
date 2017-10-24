@@ -21,26 +21,31 @@ const perm = (...args) => {
   }
   const result = [];
   const permute = (arr, memo = []) => {
+    console.log('\narray at the beginnning: ', arr);
     let i, current;
     for (i = 0; i < arr.length; i++) {
       current = arr.splice(i, 1);
+      console.log('current = ', current, '[i] = ', i);
       if (arr.length === 0) {
+        console.log('result before = ', result);
         result.push(memo.concat(current));
+        console.log('result after = ', result);
       }
       permute(arr.slice(), memo.concat(current));
       arr.splice(i, 0, current[0]);
+      console.log('array after permute() = ', arr);
     }
     return result;
   };
   return permute(args);
 };
 
-console.log(perm());
-console.log(perm('Scooby Snacks'));
+// console.log(perm());
+// console.log(perm('Scooby Snacks'));
 console.log(perm(1, 2, 3));
-console.log(perm('a', 'b', 'c', 'd'));
-console.log(perm('corn', 'turkey', 'winter', 'algebra', 'window'));
-console.log(perm(['Jesh', 'does', 'not', 'share', 'candy']));
+// console.log(perm('a', 'b', 'c', 'd'));
+// console.log(perm('corn', 'turkey', 'winter', 'algebra', 'window'));
+// console.log(perm(['Jesh', 'does', 'not', 'share', 'candy']));
 
 
 // const allAnagrams = (str, start = '') => {
