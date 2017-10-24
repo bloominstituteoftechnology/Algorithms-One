@@ -1,4 +1,4 @@
-
+/* eslint no-console: 0 */
 const nextElement = (n, set) => {
   if(n === 1) {
     console.log(set);
@@ -19,19 +19,18 @@ const nextElement = (n, set) => {
     }
     nextElement(n - 1, set);
   }
-}
+};
 
 const countSet = (set) => {
-  let n = set.length;
-  
+  // let n = set.length;
+
   let array = [];
   set.forEach((each) => {
     array.push(each);
   });
   nextElement(array.length, array);
-}
+};
 
 countSet([1,2,3]);
 countSet(['a','b','c','d']);
 countSet(['corn','turkey','winter','algebra','window', 'kevin']);
-
