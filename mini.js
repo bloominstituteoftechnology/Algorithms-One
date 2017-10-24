@@ -6,20 +6,38 @@ all permutations of the following sets:
 ('a', 'b', 'c', 'd')
 ('corn', 'turkey', 'winter', 'algebra', 'window')
 e.g.
-!3: 123, 132, 213, 231, 312, 321
-!4: abcd, abdc, acbd, acdb, adbc, adcb, etc...
+!3: 123, 132, 213, 231, 312, 321 = 6 permutations
+!4: abcd, abdc, acbd, acdb, adbc, adcb, etc... = 24 permutations
+!5: (corn, turkey, winter, algebra, window),
+    (corn, turkey, winter, window, algebra), etc... = 120 permutations
 */
 
 const perm = (...args) => {
-  if (args.length === 1) return args[0]
+  // edge case
+  if (args.length === 0) {
+    return 'Ya gotta pass in some args, bruh.'
+  // BASE case
+  } else if (args.length === 1) {
+    return args[0]
+  }
+
   let i, j;
+  const permutations = [];
+  // console.log("allButFirst", args.slice(1));
+  // const allButFirst = perm(args.slice(1));
+  // for (i = 0; i < allButFirst.length; i++) {
   for (i = 0; i < args.length; i++) {
     // console.log(i, args[i]);
-    console.log(args.slice(1, args.length));
-    // permutations = perm(args.slice(1, args.length))
+    // console.log(args.slice(1, args.length));
+    sub = perm(args.slice(i + 1, args.length))
+    for (j = 0; j < args[0].length; j++) {
+      permutations.push(sub[i])
+    }
   }
+  return permutations;
 }
 
+console.log(perm());
 console.log(perm('Scooby Snacks'));
 console.log(perm(1, 2, 3));
 console.log(perm('a', 'b', 'c', 'd'));
