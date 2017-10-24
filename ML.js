@@ -1,11 +1,31 @@
-// procedure generate(n : integer, A : array of any):
-if (n === 1) {
-  return A
-} else {
-  for(let i = 0; i < n-1; i++)
-}
+function permutationArr(str) 
+{ 
+  var arr = str.split(''),
+  permutations = [];   
 
+  function swap(a, b)
+  {
+    var tmp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = tmp;
+  }
 
+  function generate(n) {
+    if (n == 1) {
+      permutations.push(arr.join());
+    } else {
+      for (var i = 0; i != n; ++i) {
+        generate(n - 1);
+        swap(n % 2 ? 0 : i, n - 1);
+      }
+    }
+  }
+
+  generate(arr.length);
+  console.log(permutations);
+}    
+
+console.log(permutationArr('abcde')); 
 
 
 

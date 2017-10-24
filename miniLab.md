@@ -1,5 +1,5 @@
 set 1) 
-3! = 6
+3! = 6 permutations
 1 --+-- 12 --+-- 123 ...
     |        |
     |        +-- 231 ...
@@ -13,7 +13,10 @@ set 1)
              +-- 321 ...
 
 set 2)
-4! = 24
+4! = 24 permutations
+
+still working on this chart 
+
 a --+-- ab --+-- abc --+-- abcd
     |        |         |
     |        +-- bac --+--
@@ -49,4 +52,6 @@ a --+-- ab --+-- abc --+-- abcd
              +-- cba --+--
 
 set 3)
-5! = 120
+5! = 120 permutations
+
+thats a large chart
