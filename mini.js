@@ -11,12 +11,16 @@ e.g.
 */
 
 const perm = (...args) => {
-  let i;
+  if (args.length === 1) return args[0]
+  let i, j;
   for (i = 0; i < args.length; i++) {
-    console.log(i, args[i]);
+    // console.log(i, args[i]);
+    console.log(args.slice(1, args.length));
+    // permutations = perm(args.slice(1, args.length))
   }
 }
 
+console.log(perm('Scooby Snacks'));
 console.log(perm(1, 2, 3));
 console.log(perm('a', 'b', 'c', 'd'));
 console.log(perm('corn', 'turkey', 'winter', 'algebra', 'window'));
