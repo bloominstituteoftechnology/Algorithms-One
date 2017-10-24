@@ -14,7 +14,11 @@
  ******************************************************************************/
 
 const perm = (...args) => {
-  if (args.length === 1) return args;
+  if (args.length === 0) {
+    return 'Ya gots to enter some args, bruh!';
+  } else if (args.length === 1) {
+    return args;
+  }
   const result = [];
   const permute = (arr, memo = []) => {
     let i, current;
