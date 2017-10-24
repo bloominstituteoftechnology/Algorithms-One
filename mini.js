@@ -14,28 +14,20 @@
  ******************************************************************************/
 
 const perm = (...args) => {
-  // edge case
-  if (args.length === 0) {
-    return 'Ya gotta pass in some args, bruh.';
-  // BASE case
-  } else if (args.length === 1) {
-    return args[0];
-  }
-
-  let i, j;
-  const permutations = [];
-  // console.log("allButFirst", args.slice(1));
-  // const allButFirst = perm(args.slice(1));
-  // for (i = 0; i < allButFirst.length; i++) {
-  for (i = 0; i < args.length; i++) {
-    // console.log(i, args[i]);
-    // console.log(args.slice(1, args.length));
-    const sub = perm(args.slice(i + 1, args.length));
-    for (j = 0; j < args[0].length; j++) {
-      permutations.push(sub[i]);
+  const result = [];
+  const permute = (arr, memo = []) => {
+    let i, current;
+    for (i = 0; i < arr.length; i++) {
+      current = arr.splice(i, 1);
+      if (arr.length === 0) {
+        result.push(memo.concat(current));
+      }
+      permute(arr.slice(), memo.concat(current));
+      arr.splice(i, 0, current[0]);
     }
-  }
-  return permutations;
+    return result;
+  };
+  return permute(args);
 };
 
 console.log(perm());
@@ -45,15 +37,17 @@ console.log(perm('a', 'b', 'c', 'd'));
 console.log(perm('corn', 'turkey', 'winter', 'algebra', 'window'));
 
 
-const allAnagrams = (str, start = '') => {
-  if (str.length === 1) return [start + str];
-  const anagrams = [];
-
-  for (let i = 0; i < str.length; i++) {
-    const result = allAnagrams(str.substr(0, i) + str.substr(i + 1), str[i]);
-    for (let j = 0; j < result.length; j++) {
-      anagrams.push(start + result[j]);
-    }
-  }
-  return anagrams;
-};
+// const allAnagrams = (str, start = '') => {
+//   if (str.length === 1) return [start + str];
+//   const anagrams = [];
+//
+//   for (let i = 0; i < str.length; i++) {
+//     const result = allAnagrams(str.substr(0, i) + str.substr(i + 1), str[i]);
+//     for (let j = 0; j < result.length; j++) {
+//       anagrams.push(start + result[j]);
+//     }
+//   }
+//   return anagrams;
+// };
+//
+// console.log(allAnagrams('abcd'));
