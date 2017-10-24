@@ -1,6 +1,13 @@
 'use-strict';
 /* eslint no-console: 0 */
 
+/******************************************************************************
+ * Transcribed during lecture
+ * added zero handling
+ * added ...args version
+ ******************************************************************************/
+
+
 const nextElement = (n, set) => {
   if (n === 1) {
     console.log(set);
@@ -23,7 +30,25 @@ const nextElement = (n, set) => {
   }
 };
 
-const countSet = (set) => {
+// const countSet = (set) => {
+//   if (set.length === 0) {
+//     return console.log('Gimme some stuff, bruh!');
+//   }
+//   let array = [];
+//   set.forEach((each) => {
+//     array.push(each);
+//   });
+//   nextElement(array.length, array);
+// };
+//
+// countSet([]);
+// countSet(['Scooby Snacks']);
+// countSet([1, 2, 3]);
+// countSet(['a', 'b', 'c', 'd']);
+// countSet(['corn', 'turkey', 'winter', 'algebra', 'window']);
+// countSet(['Jesh', 'does', 'not', 'share', 'candy']);
+
+const countSet = (...set) => {
   if (set.length === 0) {
     return console.log('Gimme some stuff, bruh!');
   }
@@ -34,9 +59,9 @@ const countSet = (set) => {
   nextElement(array.length, array);
 };
 
-countSet([]);
-countSet(['Scooby Snacks']);
-countSet([1, 2, 3]);
-countSet(['a', 'b', 'c', 'd']);
-countSet(['corn', 'turkey', 'winter', 'algebra', 'window']);
-countSet(['Jesh', 'does', 'not', 'share', 'candy']);
+countSet();
+countSet('Scooby Snacks');
+countSet(1, 2, 3);
+countSet('a', 'b', 'c', 'd');
+countSet('corn', 'turkey', 'winter', 'algebra', 'window');
+countSet('Jesh', 'does', 'not', 'share', 'candy');
