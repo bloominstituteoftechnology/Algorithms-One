@@ -71,11 +71,16 @@ TSP is one of the most popular benchmark problems and a great many algorithms ha
 Exhaustive search is fundamentally the most difficult case: calculate the length of every possible path, keeping the shortest. This method is guaranteed to return the shortest path, but is intractable for lists of cities greater than ~20, as this algorithm is NP-Complete and O(n!). The algorithm to exhaustively search involves starting from the first ordered list of all cities as integers, then swapping a pair, calculating the length of that trip, storing it if `l(x) < B`, and repeating until all swaps have been performed:
 
     Cities: [
-    Denver, 500, 500,
-    Salt Lake City, 300, 500,
-    Cheyenne, 500, 600,
-    Santa Fe, 500, 350
+    {name:"Denver", x:500, y:500},
+    {name:"Salt Lake City", x:300, y:500},
+    {name:"Cheyenne", x:500, y:600},
+    {name:"Santa Fe", x:500, y:350]
     ]
+
+The distance between two cities is:
+    distance_between = (city1, city2) -> {
+      return Math.sqrt((city1.x - city2.x)^2 + (city.1.y - city2.y)^2))
+    }
 
 All 4! permutations of `Cities`:
 
