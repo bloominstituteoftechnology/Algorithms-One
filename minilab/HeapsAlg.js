@@ -2,6 +2,7 @@
 const nextElement = (n, set) => {
   if(n === 1) {
     console.log(set);
+    // TODO: Call an outside function to compute distance on this set
   }
   else {
     for(let i = 0; i < n-1 ; i++) {
