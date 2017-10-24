@@ -34,6 +34,8 @@ A graph is a set of nodes that are connected by edges. Nodes each represent info
 
     C = n ^ b
 
+![A Graph](https://www.lucidchart.com/publicSegments/view/0bb94330-2ca8-48dc-9108-640fdec02122/image.png)
+
 # Asymptotic Complexity Big(O)
 
 O(n) notation describes _asymptotic complexity_, that is, the difficulty of a problem as the size of the problem approaches infinity.
