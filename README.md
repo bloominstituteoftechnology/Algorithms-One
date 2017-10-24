@@ -1,6 +1,6 @@
 # Algorithms One
 
-After the invention of the Turing Machine, human computation was proved to be equivalen to mechanical computation. Invention quickly moved toward building these kinds of machines. Mathematical theorists moved on to the question of what kinds of problems can be computed, how to formulate those questions, and how difficult they become.
+After the invention of the Turing Machine, human computation was proved to be equivalent to mechanical computation. Invention quickly moved toward building these kinds of machines. Mathematical theorists moved on to the question of what kinds of problems can be computed, how to formulate those questions, and how difficult they become.
 
 Algorithms are a vast subject packed with mathematical specificity - no two day study of the subject can enable to you tackle any problem in the space. This lesson is to teach you about the challenges and complexities in the design, understanding, and implementation of algorithms.
 
