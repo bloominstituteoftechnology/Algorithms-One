@@ -1,17 +1,17 @@
 'use-strict';
 /* eslint no-console: 0 */
-/*
-Mini lab
-Write code in your language of choice to generate all permutations of the following sets:
-(1, 2, 3)
-('a', 'b', 'c', 'd')
-('corn', 'turkey', 'winter', 'algebra', 'window')
-e.g.
-!3: 123, 132, 213, 231, 312, 321                    = 6 permutations
-!4: abcd, abdc, acbd, acdb, adbc, adcb, etc...      = 24 permutations
-!5: (corn, turkey, winter, algebra, window),
-    (corn, turkey, winter, window, algebra), etc... = 120 permutations
-*/
+/******************************************************************************
+ * Mini lab
+ * Write code in your language of choice to generate all permutations of the following sets:
+ * (1, 2, 3)
+ * ('a', 'b', 'c', 'd')
+ * ('corn', 'turkey', 'winter', 'algebra', 'window')
+ * e.g.
+ * !3: 123, 132, 213, 231, 312, 321                    = 6 permutations
+ * !4: abcd, abdc, acbd, acdb, adbc, adcb, etc...      = 24 permutations
+ * !5: (corn, turkey, winter, algebra, window),
+ *     (corn, turkey, winter, window, algebra), etc... = 120 permutations
+ ******************************************************************************/
 
 const perm = (...args) => {
   // edge case
