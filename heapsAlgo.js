@@ -1,7 +1,9 @@
 /******************************************************************************
  * Travelling Salesman: Exhaustive Search, 4 Cities
  * Heap's Algorithm
- *
+ * Now with Round-Trip Distance check
+ * NOTE: Only works is Heap's algo fed an array or nums from 0 to n
+ * e.g. 4 cities requires [0, 1, 2, 3]
  ******************************************************************************/
 'use-strict';
 /* eslint no-console: 0 */
@@ -14,16 +16,16 @@ const distanceBetween = distance.distanceBetween;
 const nextElement = (n, set) => {
   if(n === 1) {
     console.log('set', set);
-    // TODO: Call an outside function to compute distance on this set
+    /* TODO: Call an outside function to compute distance on this set */
     let distance = 0;
     for (let i = 0; i < set.length; i++) {
-      // if at last array index, distance back to first
+      /* if at last array index, distance back to first */
       if (i === set.length - 1) {
         distance += distanceBetween(Cities[set[i]], Cities[set[0]]);
         // console.log('between:', Cities[set[i]].name, '&', Cities[set[0]].name, 'is', distanceBetween(Cities[set[i]], Cities[set[0]]), 'miles');
         // console.log('distance now:', distance);
         // console.log(set[i], set[0]);
-      // distance between index & index + 1
+      /* distance between index & index + 1 */
       } else {
         distance += distanceBetween(Cities[set[i]], Cities[set[i + 1]]);
         // console.log('between:', Cities[set[i]].name, '&', Cities[set[i + 1]].name, 'is', distanceBetween(Cities[set[i]], Cities[set[i + 1]]), 'miles');
