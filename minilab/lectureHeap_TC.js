@@ -59,9 +59,10 @@ const countSet = (...set) => {
   nextElement(array.length, array);
 };
 
-countSet();
-countSet('Scooby Snacks');
-countSet(1, 2, 3);
-countSet('a', 'b', 'c', 'd');
-countSet('corn', 'turkey', 'winter', 'algebra', 'window');
-countSet('Jesh', 'does', 'not', 'share', 'candy');
+// countSet();
+// countSet('Scooby Snacks');
+// countSet(1, 2, 3);
+countSet(0, 1, 2, 3);
+// countSet('a', 'b', 'c', 'd');
+// countSet('corn', 'turkey', 'winter', 'algebra', 'window');
+// countSet('Jesh', 'does', 'not', 'share', 'candy');
