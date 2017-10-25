@@ -38,6 +38,11 @@ const nextElement = (n, set) => {
     }
     count++;
     console.log(`${count}.)The TOTAL distance from ${Cities[set[0]].name} to ${Cities[set[1]].name} to ${Cities[set[2]].name} to ${Cities[set[3]].name} and back = ${distance.toFixed(2)}`.padStart(94));
+    let first = distanceBetween(Cities[set[0]], Cities[set[1]]);
+    let second = distanceBetween(Cities[set[1]], Cities[set[2]]);
+    let third = distanceBetween(Cities[set[2]], Cities[set[3]]);
+    let fourth = distanceBetween(Cities[set[3]], Cities[set[0]]);
+    console.log(`    ${(first + second + third + fourth).toFixed(2)} = ${first} + ${second} + ${third} + ${fourth}`);
   }
   else {
     for(let i = 0; i < n-1 ; i++) {
