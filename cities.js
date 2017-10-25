@@ -21,7 +21,7 @@ const Cities = [
   {
     name:'Santa Fe',
     x:500,
-    y:350}
+    y:350},
 ];
 
 module.exports = {
