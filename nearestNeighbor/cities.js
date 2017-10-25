@@ -1,5 +1,5 @@
 /******************************************************************************
- * Travelling Salesman: Exhaustive Search, 4 Cities
+ * Travelling Salesman: Nearest Neighbor
  * An array of objects containing City names and coordinates
  *
  ******************************************************************************/

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Travelling Salesman: Exhaustive Search
+ * Travelling Salesman: Nearest Neighbor
  * Calculate the distance between two coordinates
  *
  ******************************************************************************/
