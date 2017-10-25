@@ -15,13 +15,13 @@ for(let h = 0; h < Cities.length; h++) {
   cityBT.push(remainingCities[h]);
   remainingCities.splice(h, 1);
 
-  for(let i = 0; i < remainingCities.length; i++) {
+  for(let i = remainingCities.length - 1; i >= 0; i--) {
     let tempJ = NaN;
     for (let j = 0; j < remainingCities.length; j++) {
-      if(distance(cityBT[i], remainingCities[j]) < tempDist) {
-        tempDist = distance(cityBT[i], remainingCities[j]);
+      if(distance(cityBT[cityBT.length - 1], remainingCities[j]) < tempDist) {
+        tempDist = distance(cityBT[cityBT.length - 1], remainingCities[j]);
         tempJ = j;
-        // console.log(remainingCities, tempJ, tempDist);
+        // console.log(remainingCities[tempJ], tempDist);
       }
     }
     let city = remainingCities.splice(tempJ, 1);
@@ -31,6 +31,7 @@ for(let h = 0; h < Cities.length; h++) {
     // console.log(cityBT);
     // console.log(cityBTL);
     if(remainingCities.length === 1) {
+      console.log(remainingCities);
       cityBT.push(remainingCities[0]);
       cityBTL += distance(cityBT[cityBT.length - 2],cityBT[cityBT.length - 1]);
       cityBTL += distance(cityBT[0],cityBT[cityBT.length - 1]);
