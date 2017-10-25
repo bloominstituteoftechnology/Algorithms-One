@@ -1,3 +1,2 @@
-permsHeap: heapsAlg.h heapsAlg.c
+permsHeap: heapsAlg.h heapsAlg.o
 	clang -o permsHeap heapsAlg.c permsHeap.c
-
