@@ -1,39 +1,22 @@
-'use-strict';
-/* eslint no-console: 0 */
-
 /******************************************************************************
  * Travelling Salesman: Exhaustive Search, 4 Cities
  *
  *
  ******************************************************************************/
+'use-strict';
+/* eslint no-console: 0 */
+const cities = require('./cities');
+const Cities = cities.Cities;
+const distance = require('./distance');
+const distanceBetween = distance.distanceBetween;
+const MAX_SAFE_NUMBER = 9007199254740991;
 
-const Cities = [
-  {
-    name:'Denver',
-    x:500,
-    y:500},
-  {
-    name:'Salt Lake City',
-    x:300,
-    y:500},
-  {
-    name:'Cheyenne',
-    x:500,
-    y:600},
-  {
-    name:'Santa Fe',
-    x:500,
-    y:350}
-];
+console.log(MAX_SAFE_NUMBER);
 
+// console log each city's coordinates
 for (let i = 0; i < Cities.length; i++) {
   console.log(`${Cities[i].name}: ${Cities[i].x}, ${Cities[i].y}`);
 }
 
-// Calcukate the distance between two points:
-const distanceBetween = (city1, city2) => {
-  console.log(`The distance between ${city1.name} & ${city2.name}:`);
-  return Math.sqrt(Math.pow(city1.x - city2.x, 2) + Math.pow(city1.y - city2.y, 2));
-};
-
+// console log the distance between two cities
 console.log(distanceBetween(Cities[0], Cities[2]));
