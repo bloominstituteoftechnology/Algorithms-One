@@ -14,27 +14,30 @@ const Cities = cities.Cities;
 const distance = require('./distance');
 const distanceBetween = distance.distanceBetween;
 
+let count = 0;
+
 const nextElement = (n, set) => {
   if(n === 1) {
-    console.log('set', set);
+    // console.log('set', set);
     /* TODO: Call an outside function to compute distance on this set *********/
     let distance = 0;
     for (let i = 0; i < set.length; i++) {
       /* if at last array index, distance back to first ***********************/
       if (i === set.length - 1) {
         distance += distanceBetween(Cities[set[i]], Cities[set[0]]);
-        console.log('between:', Cities[set[i]].name, '&', Cities[set[0]].name, 'is', distanceBetween(Cities[set[i]], Cities[set[0]]), 'miles');
-        console.log('distance now:', distance);
-        console.log('last', set[i], 'first', set[0]);
+        // console.log('between:', Cities[set[i]].name, '&', Cities[set[0]].name, 'is', distanceBetween(Cities[set[i]], Cities[set[0]]), 'miles');
+        // console.log('distance now:', distance);
+        // console.log('last', set[i], 'first', set[0]);
       /* distance between index & index + 1 ***********************************/
       } else {
         distance += distanceBetween(Cities[set[i]], Cities[set[i + 1]]);
-        console.log('between:', Cities[set[i]].name, '&', Cities[set[i + 1]].name, 'is', distanceBetween(Cities[set[i]], Cities[set[i + 1]]), 'miles');
-        console.log('distance now:', distance);
-        console.log('first', set[i], 'second', set[i + 1]);
+        // console.log('between:', Cities[set[i]].name, '&', Cities[set[i + 1]].name, 'is', distanceBetween(Cities[set[i]], Cities[set[i + 1]]), 'miles');
+        // console.log('distance now:', distance);
+        // console.log('first', set[i], 'second', set[i + 1]);
       }
     }
-    console.log('The TOTAL distance', distance, '\n');
+    count++;
+    console.log(`${count}.)The TOTAL distance from ${Cities[set[0]].name} to ${Cities[set[1]].name} to ${Cities[set[2]].name} to ${Cities[set[3]].name} and back = ${distance.toFixed(2)}`.padStart(94));
   }
   else {
     for(let i = 0; i < n-1 ; i++) {
