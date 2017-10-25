@@ -89,11 +89,11 @@ const exhaustiveAlgorithm = (cities) => {
 }
 
 // Nearest Neighbor search Pseudo Code:
-const nearestNeighborSearch = (cities) => {
-  const sites = cities;
+const neighborSearch = (cities, number) => {
+  const sites = cities.slice();
   let path = [];
   const pathEnd = sites.length;
-  let startValue = Math.floor(Math.random()*sites.length);
+  let startValue = number;
   let start = sites.splice(startValue, 1);
   let bestNearest = Number.MAX_VALUE;
   let bestLocation;
@@ -113,7 +113,32 @@ const nearestNeighborSearch = (cities) => {
     start = sites.splice(bestLocation, 1);
     path.push(start[0]);
   }
-  return {path, tripLength};
+  return {path, tripLength};  
+}
+
+const nearestNeighborSearch = (cities) => {
+  let startValue = Math.floor(Math.random()*cities.length);
+  let result = neighborSearch(cities, startValue);
+  return result;
+}
+
+const thomsonNeighborSearch = (cities) => {
+  let bestPath,
+      result,
+      currentPath,
+      currentDistance;
+  let bestDistance = Number.MAX_VALUE;
+  for(let i = 0; i < cities.length; i++) {
+    result = neighborSearch(cities, i);
+    currentPath = result.path;
+    currentDistance = result.tripLength;
+    if (currentDistance < bestDistance) {
+      bestDistance = currentDistance;
+      bestPath = currentPath;
+    }
+  }
+  return {bestPath, bestDistance};
 }
 console.log(exhaustiveAlgorithm(cities));
 console.log(nearestNeighborSearch(cities));
+console.log(thomsonNeighborSearch(cities));
