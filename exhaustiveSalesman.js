@@ -2,6 +2,7 @@
 const importfile = require('./minilab/importfile');
 const perm = importfile.perm;
 const Cities = importfile.Cities;
+const distance = importfile.distance;
 
 let BTL = Number.MAX_SAFE_INTEGER;
 // console.log(BTL);
@@ -17,7 +18,7 @@ for(let i = 0; i < permCities.length; i++) {
   for(let j = 0; j < permCities[i].length; j++) {
     // add them all up
     if(j + 1 === permCities[i].length) {
-      tempDist += distance_between(permCities[i][0], permCities[i][j]);
+      tempDist += distance(permCities[i][0], permCities[i][j]);
       if (tempDist <= BTL) {
         // compare to BTL. if smaller, replace BTL. replace BT
         // at the end of this whole loop, return BTL and BT
@@ -28,7 +29,7 @@ for(let i = 0; i < permCities.length; i++) {
       }
       // console.log(tempDist);
     } else {
-    tempDist += distance_between(permCities[i][j], permCities[i][j + 1]);
+    tempDist += distance(permCities[i][j], permCities[i][j + 1]);
     // console.log(tempDist);
     }
   }
