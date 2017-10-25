@@ -117,8 +117,8 @@ const neighborSearch = (cities, number) => {
 }
 
 const nearestNeighborSearch = (cities) => {
-  let startValue = Math.floor(Math.random()*cities.length);
-  let result = neighborSearch(cities, startValue);
+  let random = Math.floor(Math.random()*cities.length);
+  let result = neighborSearch(cities, random);
   return result;
 }
 
