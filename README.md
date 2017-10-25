@@ -28,26 +28,33 @@ Write code in your language of choice to generate all permutations of the follow
 
 [Heaps' Algorithm](https://en.wikipedia.org/wiki/Heap%27s_algorithm)
 
+# The second basis of algorithm design: Graph theory
+
+A graph is a set of nodes that are connected by edges. Nodes each represent information in some state, and edges represent transformations of that information into another state. Any problem in computation can generally be described as "here is the information we know about the problem" as a state and "these are the changes we can apply to the information from this state" as an edge. Each node has a number of edges leaving it that is known as its "branching factor". The branching factor of graph determines the size of its search space.
+
+    C = n ^ b
+
+![A Graph](https://www.lucidchart.com/publicSegments/view/0bb94330-2ca8-48dc-9108-640fdec02122/image.png)
+
 # Asymptotic Complexity Big(O)
 
 O(n) notation describes _asymptotic complexity_, that is, the difficulty of a problem as the size of the problem approaches infinity.
 
 ## Growth of Big(O) and the shape of an algorithm
 
-Transformability of algorithms in a class!
+[Algorithms Visualization](https://www.lucidchart.com/invitations/accept/fddf57b9-9ca0-4956-b97a-832c96aded5b)
 
 Transforming an algorithm from one complexity class to another:
-O(x^n) n fully connected lists of length x
-O(n^4) is n cubes
-O(n^3) is a cube
-O(n^2) is a matrix
-O(n log n) is a binary tree with depth = n (log is branching factor)
-O(n) is a list of length n
-O(log n) is a a binary tree with depth = n that is explored once with depth first search
-O(1) computes the answer immediately
+- O(x^n) n fully connected lists of length x
+- O(n^4) is n cubes
+- O(n^3) is a cube
+- O(n^2) is a matrix
+- O(n log n) is a binary tree with depth = n (log is branching factor)
+- O(n) is a list of length n
+- O(log n) is a a binary tree with depth = n that is explored once with depth first search
+- O(1) computes the answer immediately
 
 [Big O](https://www.lucidchart.com/documents/view/fb7a5e50-8340-46b4-be62-69c7fe24c472)
-
    
 # Assignment
 
@@ -64,11 +71,16 @@ TSP is one of the most popular benchmark problems and a great many algorithms ha
 Exhaustive search is fundamentally the most difficult case: calculate the length of every possible path, keeping the shortest. This method is guaranteed to return the shortest path, but is intractable for lists of cities greater than ~20, as this algorithm is NP-Complete and O(n!). The algorithm to exhaustively search involves starting from the first ordered list of all cities as integers, then swapping a pair, calculating the length of that trip, storing it if `l(x) < B`, and repeating until all swaps have been performed:
 
     Cities: [
-    Denver, 500, 500,
-    Salt Lake City, 300, 500,
-    Cheyenne, 500, 600,
-    Santa Fe, 500, 350
+    {name:"Denver", x:500, y:500},
+    {name:"Salt Lake City", x:300, y:500},
+    {name:"Cheyenne", x:500, y:600},
+    {name:"Santa Fe", x:500, y:350]
     ]
+
+The distance between two cities is:
+    distance_between = (city1, city2) -> {
+      return Math.sqrt((city1.x - city2.x)^2 + (city.1.y - city2.y)^2))
+    }
 
 All 4! permutations of `Cities`:
 
