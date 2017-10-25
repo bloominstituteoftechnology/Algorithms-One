@@ -17,10 +17,10 @@ const perm = (args) => {
 
 const Cities = [
   {name:"Salt Lake City", x:300, y:500},
-  {name:"Santa Fe", x:500, y:350},
   {name:"Denver", x:500, y:500},
   {name:"Cheyenne", x:500, y:600},
-  // {name: "New York", x:967, y: 789},
+  {name:"Santa Fe", x:500, y:350},
+  {name: "New York", x:967, y: 789},
   // {name: "San Fran", x: 0, y: 250},
   // {name: "Atlantis", x: -335, y: -391},
   // {name: "Asgard", x: 777, y: 777},
