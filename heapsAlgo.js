@@ -6,6 +6,7 @@
  * e.g. 4 cities requires [0, 1, 2, 3]
  * i.e. array of numbers corresponds to Cities indexes
  * console.log()s optimized for FOUR cities
+ * TODO: refactor console.logging for any number of cities
  ******************************************************************************/
 'use-strict';
 /* eslint no-console: 0 */
@@ -20,7 +21,7 @@ let count = 0;
 const nextElement = (n, set) => {
   if(n === 1) {
     // console.log('set', set);
-    /* TODO: Call an outside function to compute distance on this set *********/
+    /* TODO: Call an outside function to compute distance on this set - DONE√ */
     let distance = 0;
     for (let i = 0; i < set.length; i++) {
       /* if at last array index, distance back to first ***********************/
