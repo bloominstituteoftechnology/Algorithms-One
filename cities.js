@@ -1,4 +1,4 @@
-export const Cities = [
+const Cities = [
     { 
         name:'Denver',
         x:500, 
