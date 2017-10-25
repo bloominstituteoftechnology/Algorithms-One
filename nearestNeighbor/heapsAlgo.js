@@ -8,19 +8,15 @@
 /* eslint no-console: 0 */
 const cities = require('./cities');
 const Cities = cities.Cities;
-
 const distance = require('./distance');
 const distanceBetween = distance.distanceBetween;
-
 let max = Number.MAX_SAFE_INTEGER;
-// console.log('max safe number:', max);
-
 let count = 0;
 
 const nextElement = (n, set) => {
   if(n === 1) {
-    // console.log('set', set);
-    /* TODO: Call an outside function to compute distance on this set - DONE√ */
+    count++;
+    console.log(`${JSON.stringify(count).padStart(2)}.) Set: ${set}`);
     let distance = 0;
     for (let i = 0; i < set.length; i++) {
       if (i === set.length - 1) {
@@ -29,9 +25,8 @@ const nextElement = (n, set) => {
         distance += distanceBetween(Cities[set[i]], Cities[set[i + 1]]);
       }
     }
-    count++;
     if (distance <= max) {
-      console.log(`${count}.)The TOTAL distance from ${Cities[set[0]].name} to ${Cities[set[1]].name} to ${Cities[set[2]].name} to ${Cities[set[3]].name} and back = ${distance.toFixed(2)}`.padStart(94));
+      console.log(`${JSON.stringify(count).padStart(2)}.) The TOTAL distance from ${Cities[set[0]].name} to ${Cities[set[1]].name} to ${Cities[set[2]].name} to ${Cities[set[3]].name} and back = ${distance.toFixed(2)}`);
       max = distance;
     }
   }
