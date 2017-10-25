@@ -1,8 +1,9 @@
 const permutator = (ArrayLength, Array) => {
   let n = ArrayLength.length;
+  
   if (n < 2) return Array;
 
-  for (let i = 0; i < n - 1; i++) {
+  for (let i = 0; i < n-1; i++) {
     permutator(n -1);
     if (n % 2 === 0) {
       let temp = Array[i];
