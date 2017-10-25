@@ -17,7 +17,7 @@ console.log('max safe number:', max);
 
 // console log each city's coordinates
 for (let i = 0; i < Cities.length; i++) {
-  console.log(`${Cities[i].name}: ${Cities[i].x}, ${Cities[i].y}`);
+  console.log(`${i + 1}.) x: ${Cities[i].x}, y: ${Cities[i].y} = ${Cities[i].name}.`);
 }
 
 // console log the distance between two cities
