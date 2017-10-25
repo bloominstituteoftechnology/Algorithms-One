@@ -21,6 +21,7 @@ const shortestBetweenTwo = () => {
   // for each city
   // calculate distances
   // choose shortest
+  distanceBetween(Cities[0], Cities[1]).toFixed(2), Cities[0].name, Cities[1].name;
 
 };
 
