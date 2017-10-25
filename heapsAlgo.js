@@ -5,10 +5,33 @@
  ******************************************************************************/
 'use-strict';
 /* eslint no-console: 0 */
+const cities = require('./cities');
+const Cities = cities.Cities;
+
+const distance = require('./distance');
+const distanceBetween = distance.distanceBetween;
+
 const nextElement = (n, set) => {
   if(n === 1) {
-    console.log(set);
+    console.log('set', set);
     // TODO: Call an outside function to compute distance on this set
+    let distance = 0;
+    for (let i = 0; i < set.length; i++) {
+      // if at last array index, distance back to first
+      if (i === set.length - 1) {
+        distance += distanceBetween(Cities[set[i]], Cities[set[0]]);
+        // console.log('between:', Cities[set[i]].name, '&', Cities[set[0]].name, 'is', distanceBetween(Cities[set[i]], Cities[set[0]]), 'miles');
+        // console.log('distance now:', distance);
+        // console.log(set[i], set[0]);
+      // distance between index & index + 1
+      } else {
+        distance += distanceBetween(Cities[set[i]], Cities[set[i + 1]]);
+        // console.log('between:', Cities[set[i]].name, '&', Cities[set[i + 1]].name, 'is', distanceBetween(Cities[set[i]], Cities[set[i + 1]]), 'miles');
+        // console.log('distance now:', distance);
+        // console.log(set[i], set[i + 1]);
+      }
+    }
+    console.log('The TOTAL distance', distance, '\n');
   }
   else {
     for(let i = 0; i < n-1 ; i++) {
@@ -29,8 +52,6 @@ const nextElement = (n, set) => {
 };
 
 const countSet = (set) => {
-  // let n = set.length;
-
   let array = [];
   set.forEach((each) => {
     array.push(each);
@@ -38,6 +59,11 @@ const countSet = (set) => {
   nextElement(array.length, array);
 };
 
-countSet([1,2,3]);
-countSet(['a','b','c','d']);
-countSet(['corn','turkey','winter','algebra','window', 'kevin']);
+// countSet([1,2,3]);
+// countSet(['a','b','c','d']);
+// countSet(['corn','turkey','winter','algebra','window', 'kevin']);
+console.log(countSet([0, 1, 2, 3]));
+
+module.exports = {
+  countSet,
+};
