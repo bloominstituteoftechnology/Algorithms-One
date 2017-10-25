@@ -1,7 +1,7 @@
 /******************************************************************************
  * Travelling Salesman: Exhaustive Search, 4 Cities
  * Optimized for FOUR cities
- *
+ * TODO: return arrays of shortest routes
  ******************************************************************************/
 'use-strict';
 /* eslint no-console: 0 */
