@@ -31,7 +31,7 @@ const nextElement = (n, set) => {
         distance += distanceBetween(Cities[set[i]], Cities[set[i + 1]]);
         console.log('between:', Cities[set[i]].name, '&', Cities[set[i + 1]].name, 'is', distanceBetween(Cities[set[i]], Cities[set[i + 1]]), 'miles');
         console.log('distance now:', distance);
-        console.log(set[i], set[i + 1]);
+        console.log('first', set[i], 'second', set[i + 1]);
       }
     }
     console.log('The TOTAL distance', distance, '\n');
