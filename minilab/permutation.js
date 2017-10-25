@@ -1,6 +1,6 @@
 
 
-export default const perm = (args) => {
+const perm = (args) => {
   const result = [];
   const permute = (arr, memo = []) => {
     let i, current;
@@ -17,6 +17,10 @@ export default const perm = (args) => {
   return permute(args);
 };
 
+
+module.exports = {
+  perm,
+}
 // console.log(perm([0, 1, 2, 3]));
 // console.log(perm('a', 'b', 'c', 'd'));
 // console.log(perm('corn', 'turkey', 'winter', 'algebra', 'window'));
