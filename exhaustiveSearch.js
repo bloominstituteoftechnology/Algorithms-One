@@ -11,9 +11,9 @@ const distance = require('./distance');
 const distanceBetween = distance.distanceBetween;
 const count = require('./heapsAlgo');
 const countSet = count.countSet;
-const MAX_SAFE_NUMBER = 9007199254740991;
+const max = Number.MAX_SAFE_INTEGER;
 
-console.log('max safe number:', MAX_SAFE_NUMBER);
+console.log('max safe number:', max);
 
 // console log each city's coordinates
 for (let i = 0; i < Cities.length; i++) {
