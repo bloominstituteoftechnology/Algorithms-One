@@ -21,7 +21,19 @@ for (let i = 0; i < Cities.length; i++) {
 }
 
 // console log the distance between two cities
-console.log(distanceBetween(Cities[0], Cities[2]));
+console.log(`${distanceBetween(Cities[0], Cities[1]).toFixed(2)} = from ${Cities[0].name} to ${Cities[1].name}`);
+console.log(`${distanceBetween(Cities[0], Cities[2]).toFixed(2)} = from ${Cities[0].name} to ${Cities[2].name}`);
+console.log(`${distanceBetween(Cities[0], Cities[3]).toFixed(2)} = from ${Cities[0].name} to ${Cities[3].name}`);
+console.log(`${distanceBetween(Cities[1], Cities[0]).toFixed(2)} = from ${Cities[1].name} to ${Cities[2].name}`);
+console.log(`${distanceBetween(Cities[1], Cities[2]).toFixed(2)} = from ${Cities[1].name} to ${Cities[3].name}`);
+console.log(`${distanceBetween(Cities[1], Cities[3]).toFixed(2)} = from ${Cities[1].name} to ${Cities[0].name}`);
+console.log(`${distanceBetween(Cities[2], Cities[0]).toFixed(2)} = from ${Cities[2].name} to ${Cities[3].name}`);
+console.log(`${distanceBetween(Cities[2], Cities[1]).toFixed(2)} = from ${Cities[2].name} to ${Cities[0].name}`);
+console.log(`${distanceBetween(Cities[2], Cities[3]).toFixed(2)} = from ${Cities[2].name} to ${Cities[1].name}`);
+console.log(`${distanceBetween(Cities[3], Cities[0]).toFixed(2)} = from ${Cities[3].name} to ${Cities[0].name}`);
+console.log(`${distanceBetween(Cities[3], Cities[1]).toFixed(2)} = from ${Cities[3].name} to ${Cities[1].name}`);
+console.log(`${distanceBetween(Cities[3], Cities[2]).toFixed(2)} = from ${Cities[3].name} to ${Cities[2].name}`);
+
 
 // enumerate the permutations
 console.log(countSet([0, 1, 2, 3]));
