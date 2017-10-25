@@ -26,11 +26,11 @@ const Cities = [
     x: 500,
     y: 350
   },
-  {
-    name: 'Bora Bora',
-    x: 50,
-    y: 750,
-  },
+  // {
+  //   name: 'Bora Bora',
+  //   x: 50,
+  //   y: 750,
+  // },
 ];
 
 module.exports = {

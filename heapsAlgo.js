@@ -5,6 +5,7 @@
  * NOTE: Only works is Heap's algo fed an array or nums from 0 to n
  * e.g. 4 cities requires [0, 1, 2, 3]
  * i.e. array of numbers corresponds to Cities indexes
+ * console.log()s optimized for FOUR cities
  ******************************************************************************/
 'use-strict';
 /* eslint no-console: 0 */

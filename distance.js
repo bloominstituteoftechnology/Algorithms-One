@@ -1,5 +1,5 @@
 /******************************************************************************
- * Travelling Salesman: Exhaustive Search, 4 Cities
+ * Travelling Salesman: Exhaustive Search
  * Calculate the distance between two coordinates
  *
  ******************************************************************************/
