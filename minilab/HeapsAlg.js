@@ -33,7 +33,7 @@ const countSet = (set) => {
   nextElement(array.length, array);
 }
 
-countSet([1,2,3]);
-countSet(['a','b','c','d']);
-countSet(['corn','turkey','winter','algebra','window', 'kevin']);
+countSet([0,1,2,3]);
+// countSet(['a','b','c','d']);
+// countSet(['corn','turkey','winter','algebra','window', 'kevin']);
 

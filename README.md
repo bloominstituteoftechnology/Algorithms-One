@@ -79,7 +79,7 @@ Exhaustive search is fundamentally the most difficult case: calculate the length
 
 The distance between two cities is:
     distance_between = (city1, city2) -> {
-      return Math.sqrt((city1.x - city2.x)^2 + (city.1.y - city2.y)^2))
+      return Math.sqrt((city1.x - city2.x)^2 + (city1.y - city2.y)^2)
     }
 
 All 4! permutations of `Cities`:
