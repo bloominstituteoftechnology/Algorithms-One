@@ -2,16 +2,12 @@
  * Traveling Salesman Problem (TSP)
  * 2017-10-25
  *
- * Version 0.3_a
+ * Version 0.3_b
   */
 
 #include "./travellingSalesman.h"
 
-struct City {
-  char *name;
-  int x;
-  int y;
-} Cities[] = /* Cities[] is a global variable */
+struct City Cities[] = /* Cities[] is a global variable */
   {
     "Denver",
     500,
@@ -27,12 +23,11 @@ struct City {
     350,
   };
 
-struct Route {
-  char **route;
-  double distance;
-} shortestRoute = { /* shortestRoute is a global variable */
-  NULL, -1
-};
+struct Route shortestRoute =
+  {
+    NULL,
+    -1
+  };
 
 int
 main (int argc, char *argv[]) {
