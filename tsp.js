@@ -16,11 +16,13 @@ const cities = [
   // {name: "Minneapolis", x: 1200, y: 1450}
 ];
 // /*
+console.log('Results using Heap\'s algorithm:\n');
 perm(cities);
+console.log('Shortest route: ' + fastestRoute);
+console.log('Distance of shortest route: ' + fast + '\n');
+console.log('Results using the Nearest Neighbor algorithm: \n');
 const nNS = nearestNeighbor(cities);
 // console.log(nNS);
-console.log('FAST: ' + fast);
-console.log('FASTEST ROUTE: ' + fastestRoute);
 // */
 /*
 const nNS = nearestNeighbor(cities);

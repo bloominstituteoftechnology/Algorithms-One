@@ -53,7 +53,10 @@ const nearestNeighbor = (arr) => {
     // console.log('PossiblePaths 48: ' + JSON.stringify(possiblePaths));
   } // END FOR 1 ===================================
   for (let z = 0; z < possiblePaths.length; z++) {
-    console.log('PossiblePaths: ' + JSON.stringify(possiblePaths[z]));
+    console.log('Shortest path starting from ' + possiblePaths[z][0].name + ': '
+    + JSON.stringify(possiblePaths[z]));
+    console.log('Distance of trip starting from ' + possiblePaths[z][0].name +
+    ': ' + possiblePaths[z][possiblePaths.length] + '\n');
   }
   return JSON.stringify(possiblePaths);
 } // END FUNCTION

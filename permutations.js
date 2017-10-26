@@ -28,7 +28,7 @@ const possiblePerm = (arr) => {
   for(let i = len - 1; i > 0; i--) {
     possible *= i;
   }
-  console.log('Possible permutations: ' + possible);
+  console.log('Number of possible routes: ' + possible);
   return len;
 }
 
@@ -50,14 +50,14 @@ const perm = (arr, n = 0) => {
   }
 
   if (n === 1) {
-    console.log(arr);
+    // console.log(arr);
     for(let j = 0; j < arr.length-1; j++) {
       tarr.push(measureDistance(arr[j], arr[j+1]));
     }
 
     tarr.push(measureDistance(arr[arr.length-1], arr[0]));
     result = tarr.reduce((sum, value) => sum + value);
-    console.log(result);
+    // console.log(result);
 
     if (result < fast[0]) {
       fast[0] = result;
