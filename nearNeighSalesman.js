@@ -1,5 +1,11 @@
 const importfile = require('./minilab/importfile');
-const TCList = require('./TSP/smallcityObj');
+let TCList;
+if(process.argv.length === 3) {
+  TCList = require(process.argv[2]);
+  // console.log(TCList);
+} else {
+  TCList = require('./TSP/smallcityObj');
+}
 const Cities = TCList.Cities;
 const distance = importfile.distance;
 
@@ -58,7 +64,7 @@ for(let h = 0; h < Cities.length; h++) {
   }
 }
 
-console.log('BTL is');
-console.log(BTL);
 console.log('BT is');
 console.log(BT);
+console.log('BTL is');
+console.log(BTL);
