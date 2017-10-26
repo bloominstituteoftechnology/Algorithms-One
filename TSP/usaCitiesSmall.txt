@@ -1,0 +1,40 @@
+ 33613.1588   86118.3061 | Lincoln | Talladega | AL
+ 33100.9540   85529.6753 | Abanda | Chambers | AL
+ 31571.8352   85250.4893 | Abbeville | Henry | AL
+ 32070.4299   85687.7257 | Aberfoil | Bullock | AL
+ 33290.3926   87198.0530 | Abernant | Tuscaloosa | AL
+ 33356.2217   86806.9333 | Acton | Shelby | AL
+ 32105.4238   86276.3547 | Ada | Montgomery | AL
+ 32609.0206   86311.0828 | Adkin Hill | Elmore | AL
+ 33883.9885   86644.7135 | Adville | Blount | AL
+ 32121.5366   87906.1227 | Aimwell | Marengo | AL
+ 32876.5165   87742.5105 | Akron | Hale | AL
+ 34022.3194   86045.5285 | Alabama City | Etowah | AL
+ 31126.2925   85072.4294 | Alaga | Houston | AL
+ 31277.9473   86125.7796 | Alberton | Coffee | AL
+ 34267.5937   86208.8669 | Albertville | Marshall | AL
+ 33638.9941   86965.2734 | Alden | Jefferson | AL
+ 33707.0527   87241.9462 | Aldridge | Walker | AL
+ 32944.0120   85953.8532 | Alexander City | Tallapoosa | AL
+ 34178.9840   85512.1818 | Alexis | Cherokee | AL
+ 33129.5681   88151.4166 | Aliceville | Pickens | AL
+ 31936.8156   87053.3180 | Allenton | Wilcox | AL
+ 30702.9675   88078.8886 | Allenville | Mobile | AL
+ 32490.9690   87660.8407 | Allenville | Hale | AL
+ 32480.9714   85562.1727 | Alliance | Macon | AL
+ 34694.2587   88110.3182 | Allsboro | Colbert | AL
+ 33114.5630   86879.1562 | Almont | Shelby | AL
+ 33348.7220   86238.5859 | Alpine | Talladega | AL
+ 33579.2704   86637.4870 | Alton | Jefferson | AL
+ 34026.2082   86326.0923 | Altoona | Etowah | AL
+ 33737.8860   87252.5024 | America | Walker | AL
+ 34071.2081   85921.3590 | Anderson | Etowah | AL
+ 32052.9256   87570.8342 | Anne Manie | Wilcox | AL
+ 31886.2644   86115.7906 | Ansley | Pike | AL
+ 31385.7228   86383.0123 | Antioch | Covington | AL
+ 31759.0481   85889.1149 | Antioch | Pike | AL
+ 34230.6496   85638.0189 | Antioch | Cherokee | AL
+ 31221.0066   87121.3622 | Appleton | Escambia | AL
+ 34830.3643   87485.3023 | Aqua Vista | Lauderdale | AL
+ 31968.2064   88146.6822 | Ararat | Choctaw | AL
+ 31141.5693   85151.3196 | Ardilla | Houston | AL
