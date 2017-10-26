@@ -2,7 +2,7 @@
  * loadCities.c
  * 2017-10-25
  *
- * Version 0.2_b
+ * Version 0.2_c
  *
  * Load usa115475_cities_a.txt and usa115475.tsp
  * format for use by Traveling Salesman Problem
@@ -13,7 +13,7 @@
 struct City **
 loadCities(void) {
   /* open the two files for reading */
-  FILE *cities = fopen(CITIES, READ);
+  FILE *cities = fopen(CITIES_FILE, READ);
   FILE *cities_names = fopen(CITIES_NAMES, READ);
   if (cities == NULL || cities_names == NULL) {
     fprintf(stderr, "Failed to open cities or cities_names\n");

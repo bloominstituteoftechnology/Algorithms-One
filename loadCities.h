@@ -2,7 +2,7 @@
  * loadCities.h
  * 2017-10-25
  *
- * Version 0.2_b
+ * Version 0.2_c
  *
  * Load usa115475_cities_a.txt and usa115475.tsp
  * format for use by Traveling Salesman Problem
@@ -16,7 +16,7 @@
 #include <ctype.h>
 #include <math.h>
 
-#define CITIES "./TSP/usa115475.tsp"
+#define CITIES_FILE "./TSP/usa115475.tsp"
 /* NOTE: usa115475_cities.txt must first be processed by cityfilter.pl
          to produce usa115475_cities_a.txt so that the sscan library
          function will work properly */
