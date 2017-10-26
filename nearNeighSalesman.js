@@ -1,5 +1,6 @@
 const importfile = require('./minilab/importfile');
-const Cities = importfile.Cities;
+const TCList = require('./TSP/smallcityObj');
+const Cities = TCList.Cities;
 const distance = importfile.distance;
 
 // need to have a start point of all things
