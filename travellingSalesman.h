@@ -3,7 +3,7 @@
  * Header file: travellingSalesman.h
  * 2017-10-25
  *
- * Version 0.3_e
+ * Version 0.3_g
  */
 
 /*
@@ -105,18 +105,14 @@ struct City CitiesSmallSet[] =
     350.0,
   };
 
-/* NOTE: refactored to use the struct City defined in loadCities;
- *       this means that the x and y coordinates must be doubles,
- *       and there needs to be a state
- * ****************************************************************/
-/* A City struct contains the name of the city,
- * and its x and y coordinates */
-
 
 struct Route {
   char **route;
   double distance;
 };
+
+int
+doPermutations(struct City **, int, void(*fn)(char **));
 
 /* Given a City struct, print its components */
 void
@@ -126,21 +122,21 @@ printCity(struct City *);
  * in the data structure to obtain their coordinates,
  * then calculate the distance separating them */
 double
-distance(char *, char *);
+distance(char *, char *, struct City *);
 
 /* Given a city name, look up its data structure and
  * return it */
 struct City *
-lookup(char *);
+lookup(char *, struct City *);
 
 /* Given a set of cities, calculate the round trip
  * distance between them all */
 double
-roundTrip(char **);
+roundTrip(char **, struct City *);
 
 /* Given a set of cities, keep track of the shortest
  * distance set */
 void
-checkRoute(char **);
+checkRoute(char **, struct City *);
 
 #endif
