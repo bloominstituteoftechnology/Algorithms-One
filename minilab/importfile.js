@@ -20,13 +20,13 @@ const Cities = [
   {name:"Denver", x:500, y:500},
   {name:"Cheyenne", x:500, y:600},
   {name:"Santa Fe", x:500, y:350},
-  {name: "New York", x:967, y: 789},
+  // {name: "New York", x:967, y: 789},
   // {name: "San Fran", x: 0, y: 250},
   // {name: "Atlantis", x: -335, y: -391},
   // {name: "Asgard", x: 777, y: 777},
   // {name: "Ryan Hamblin's House", x: 123, y: 456},
   // {name: "Lambda School HQ", x: 0, y: 0},
-  // doesnt work after this
+  // // doesnt work after this
   // {name: "???", x: 676, y: 51},
 ];
 

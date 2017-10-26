@@ -36,5 +36,7 @@ for(let i = 0; i < permCities.length; i++) {
     }
   }
 }
-// console.log(BTL);
-// console.log(BT);
+console.log('BTL is');
+console.log(BTL);
+console.log('BT is');
+console.log(BT);
