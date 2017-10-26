@@ -1,3 +1,7 @@
+const set1 = [1,2,3,4];
+const set2 = ['a', 'b', 'c', 'd'];
+const set3 = ['banana', 'script', 'rocks', 'cs1'];
+
 const heaps = (num) => { 
   const arr = num.toString().split('');
   const permutations = [];   
