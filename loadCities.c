@@ -2,9 +2,9 @@
  * loadCities.c
  * 2017-10-25
  *
- * Version 0.1_a
+ * Version 0.2_a
  *
- * Load usa115475_cities.txt and usa115475.tsp
+ * Load usa115475_cities_a.txt and usa115475.tsp
  * format for use by Traveling Salesman Problem
  */
 
@@ -14,8 +14,12 @@
 #include <ctype.h>
 #include <math.h>
 
-#define CITIES "TSP/usa115475.tsp"
-#define CITIES_NAMES "TSP/usa115475_cities_b.txt"
+#define CITIES "./TSP/usa115475.tsp"
+/* NOTE: usa115475_cities.txt must first be processed by cityfilter.pl
+         to produce usa115475_cities_a.txt so that the sscan library
+         function will work properly */
+#define CITIES_NAMES "./TSP/usa115475_cities_a.txt"
+#define CITIES_SIZE 115475
 #define READ "r"
 #define BUFSIZE 100
 
@@ -76,7 +80,10 @@ main(int argc, char *argv[]) {
   char city_name[BUFSIZE];
   int result;
 
-  // get a city line
+  struct City *cities_arr[CITIES_SIZE];
+  int city_index = 0;
+
+  // add city data to structs
   while ((result = getCity(cities, city)) == 1) {
     // get a city name line
     result = getCity(cities_names, city_name);
@@ -87,13 +94,16 @@ main(int argc, char *argv[]) {
   
     struct City *cityStr = malloc(sizeof(struct City));
     fillCity(city, city_name, cityStr);
-    printCityInfo(cityStr);
+    cities_arr[city_index] = cityStr;
   }
 
   if (result == -1)
     fprintf(stderr, "Success\n");
   else
     fprintf(stderr, "Error\n");
+
+  printf("successfully loaded city data\n");
+  /* NOTE: free city data at conclusion */
 
 } /***************************************************/
 
