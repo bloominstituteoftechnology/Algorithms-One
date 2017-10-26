@@ -2,7 +2,7 @@
  * Traveling Salesman Problem (TSP)
  * 2017-10-25
  * 
- * version 0.1_a
+ * version 0.2_a
  */
 
 /*
@@ -60,9 +60,20 @@ struct City {
     350,
   };
 
+struct Route {
+  char **route;
+  double distance;
+} shortestRoute = {
+  NULL, -1
+};
+
+/* PROTOTYPES ...................*/
 void printCity(struct City *);
 double distance(char *, char *);
 struct City * lookup(char *);
+double roundTrip(char **);
+void checkRoute(char **);
+/*...............................*/
 
 int
 main (int argc, char *argv[]) {
@@ -75,7 +86,10 @@ main (int argc, char *argv[]) {
   }
   cities[CITIES] = NULL;
 
-  permute(CITIES, cities, display);
+  permute(CITIES, cities, checkRoute);
+
+  printf("The shortest distance is: %.2lf\n", shortestRoute.distance);
+  display(shortestRoute.route);
 
   return 0;
 }
@@ -85,9 +99,10 @@ distance(char *city1, char *city2) {
   struct City *city1_s = lookup(city1);
   struct City *city2_s = lookup(city2);
   int dist_x = city2_s->x - city1_s->x;
-  int dist_y = city2_s->y - city2_s->y;
-  
-  return sqrt(dist_x * dist_x + dist_y + dist_y);
+  int dist_y = city2_s->y - city1_s->y;
+  double dist = sqrt(dist_x * dist_x + dist_y * dist_y);
+
+  return sqrt(dist_x * dist_x + dist_y * dist_y);
 }
 
 void
@@ -101,9 +116,30 @@ lookup(char *city) {
   while (&Cities[i] != NULL) {
     if (strncmp(Cities[i].name, city, 0xf) == 0)
       return &Cities[i];
+    i++;
   }
   fprintf(stderr, "Failed to find city %s\n", city);
   exit(EXIT_FAILURE);
+}
+
+double
+roundTrip(char **tripset) {
+  double roundTripDistance = 0;
+  int n = elements(tripset, 1);
+  if (n == 1) return 0;
+
+  for (int i = 1; i < n; i++)
+    roundTripDistance += distance(tripset[i-1], tripset[i]);
+  roundTripDistance += distance(tripset[0], tripset[n-1]);
+  return roundTripDistance;
+}
+
+void checkRoute(char **tripset) {
+  double distance = roundTrip(tripset);
+  if (shortestRoute.distance == -1 || distance < shortestRoute.distance) {
+    shortestRoute.route = tripset;
+    shortestRoute.distance = distance;
+  }
 }
 
 /*
