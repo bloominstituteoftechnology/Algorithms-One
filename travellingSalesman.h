@@ -79,16 +79,21 @@ for each city start in l:
 #include <stdio.h>
 #include <math.h>
 #include "./minilab/heapsAlg.h"
+#include "./loadCities.h"
 
-#define CITIES 4
+#define CITIES 4 /* number of data items in the original problem */
 
+/* NOTE: refactored to use the struct City defined in loadCities;
+ *       this means that the x and y coordinates must be doubles,
+ *       and there needs to be a state
+ * ****************************************************************/
 /* A City struct contains the name of the city,
  * and its x and y coordinates */
-struct City {
-  char *name;
-  int x;
-  int y;
-};
+/* struct City { */
+/*   char *name; */
+/*   int x; */
+/*   int y; */
+/* }; */
 
 struct Route {
   char **route;
