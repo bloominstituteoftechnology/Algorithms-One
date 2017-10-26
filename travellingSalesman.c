@@ -1,0 +1,117 @@
+/*
+ * Traveling Salesman Problem (TSP)
+ * 2017-10-25
+ * 
+ * version 0.1_a
+ */
+
+/*
+ * Travelling Salesman Problem (TSP)
+ * 
+ * The  TSP   is  one  of   the  most  famous  problems   in  Computer
+ * Science. Imagine a map containing n  cities that need to be visited
+ * in an  optimal order. This  problem is  known to be  somewhere less
+ * than O(n!) and greater than O(x^n).
+
+ * TSP is one of the most  popular benchmark problems and a great many
+ * algorithms have  been tested against  it. For the interest  time of
+ * time and  experience, only  two algorithms  are prescribed  in this
+ * assignment:
+
+ * Solution Methods:
+
+ * Exhaustive search (Breadth-first or Depth-first search)
+
+ * Exhaustive  search  is  fundamentally   the  most  difficult  case:
+ * calculate  the   length  of   every  possible  path,   keeping  the
+ * shortest. This  method is guaranteed  to return the  shortest path,
+ * but is  intractable for lists of  cities greater than ~20,  as this
+ * algorithm is  NP-Complete and O(n!). The  algorithm to exhaustively
+ * search involves starting from the  first ordered list of all cities
+ * as integers, then  swapping a pair, calculating the  length of that
+ * trip, storing  it if l(x) <  B, and repeating until  all swaps have
+ * been performed:
+ */
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include "./minilab/heapsAlg.h"
+
+#define CITIES 4
+
+struct City {
+  char *name;
+  int x;
+  int y;
+} Cities[] =
+  {
+    "Denver",
+    500,
+    500,
+    "Salt Lake City",
+    300,
+    500,
+    "Cheyenne",
+    500,
+    600,
+    "Santa Fe",
+    500,
+    350,
+  };
+
+void printCity(struct City *);
+double distance(char *, char *);
+struct City * lookup(char *);
+
+int
+main (int argc, char *argv[]) {
+
+  char *cities[CITIES + 1];
+
+  for (int c = 0; c < CITIES; c++) {
+    struct City city = Cities[c];
+    cities[c] = city.name;
+  }
+  cities[CITIES] = NULL;
+
+  permute(CITIES, cities, display);
+
+  return 0;
+}
+
+double
+distance(char *city1, char *city2) {
+  struct City *city1_s = lookup(city1);
+  struct City *city2_s = lookup(city2);
+  int dist_x = city2_s->x - city1_s->x;
+  int dist_y = city2_s->y - city2_s->y;
+  
+  return sqrt(dist_x * dist_x + dist_y + dist_y);
+}
+
+void
+printCity(struct City *city) {
+  printf("%s (%d, %d)\n", city->name, city->x, city->y);
+}
+
+struct City *
+lookup(char *city) {
+  int i = 0;
+  while (&Cities[i] != NULL) {
+    if (strncmp(Cities[i].name, city, 0xf) == 0)
+      return &Cities[i];
+  }
+  fprintf(stderr, "Failed to find city %s\n", city);
+  exit(EXIT_FAILURE);
+}
+
+/*
+ * The  distance between  two  cities is:  distance_between =  (city1,
+ * city2) ->  { return Math.sqrt((city1.x  - city2.x)^2 +  (city.1.y -
+ * city2.y)^2)) }
+ *
+ * All 4! permutations of Cities:
+ */
+
+
