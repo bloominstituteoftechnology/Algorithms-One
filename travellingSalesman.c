@@ -1,37 +1,9 @@
 /*
  * Traveling Salesman Problem (TSP)
  * 2017-10-25
- * 
- * version 0.2_b
- */
-
-/*
- * Travelling Salesman Problem (TSP)
- * 
- * The  TSP   is  one  of   the  most  famous  problems   in  Computer
- * Science. Imagine a map containing n  cities that need to be visited
- * in an  optimal order. This  problem is  known to be  somewhere less
- * than O(n!) and greater than O(x^n).
-
- * TSP is one of the most  popular benchmark problems and a great many
- * algorithms have  been tested against  it. For the interest  time of
- * time and  experience, only  two algorithms  are prescribed  in this
- * assignment:
-
- * Solution Methods:
-
- * Exhaustive search (Breadth-first or Depth-first search)
-
- * Exhaustive  search  is  fundamentally   the  most  difficult  case:
- * calculate  the   length  of   every  possible  path,   keeping  the
- * shortest. This  method is guaranteed  to return the  shortest path,
- * but is  intractable for lists of  cities greater than ~20,  as this
- * algorithm is  NP-Complete and O(n!). The  algorithm to exhaustively
- * search involves starting from the  first ordered list of all cities
- * as integers, then  swapping a pair, calculating the  length of that
- * trip, storing  it if l(x) <  B, and repeating until  all swaps have
- * been performed:
- */
+ *
+ * Version 0.3_a
+  */
 
 #include "./travellingSalesman.h"
 
@@ -129,12 +101,6 @@ void checkRoute(char **tripset) {
   }
 }
 
-/*
- * The  distance between  two  cities is:  distance_between =  (city1,
- * city2) ->  { return Math.sqrt((city1.x  - city2.x)^2 +  (city.1.y -
- * city2.y)^2)) }
- *
- * All 4! permutations of Cities:
- */
+
 
 
