@@ -13,7 +13,7 @@
 #include <string.h>
 #include <math.h>
 
-char **permute(int, char **);
+void permute(int, char **, void (*fn)(char **));
 void swap(int, int, char **);
 int isodd(int);
 int elements(char **, int);

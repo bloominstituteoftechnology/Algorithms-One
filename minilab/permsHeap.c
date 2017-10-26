@@ -22,9 +22,8 @@ int main(int argc, char *argv[]) {
     int cols = elements(set, 1); /* cols represents the actual number of elements in this row */
 
     count = 0;
-    char** p = permute(cols, S[row]);
+    permute(cols, S[row], display);
     printf("count = %d\n\n", count);
-    display(p);
   }
 }
 

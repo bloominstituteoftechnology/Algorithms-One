@@ -8,23 +8,31 @@
 #include "./heapsAlg.h"
 
 /***************************************************************************
- * Heap's Algorithm for permuting a set
+ * Heap's Algorithm for permuting a set;
+ * =====================================
+ * n is the size of the current data set; the data set must be a list of
+ * strings, with the final element in the set a NULL value.  This allows for
+ * variable-sized sets to be sent in.
+ * Takes a function pointer as the final argument; this function makes a
+ * call with the current permutation as its argument.  In the normal
+ * this can be a call to the display() function to print out the permutation,
+ * or it can be to a function that peforms some kind of calculation on the
+ * current permutation.
  ***************************************************************************/
-char **
-permute(int n, char **s) {
+void
+permute(int n, char **s, void (*fn)(char **)) {
   if (n == 1) {
-    display(s);
-    return s;
+    (*fn)(s);
   }
 
   else {
     for (int i = 0; i < n - 1; i++) {
 
-      permute(n - 1, s);
+      permute(n - 1, s, fn);
 
       swap( isodd(n) ? 0 : i, n - 1, s);
     }
-    return permute(n - 1, s);
+    permute(n - 1, s, fn);
   }
 }
 /***************************************************************************/
