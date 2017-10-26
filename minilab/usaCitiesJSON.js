@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-fs.readFile('../TSP/usaCitiesSmall.txt', 'utf8', function(err, data) {  
+fs.readFile('../TSP/usa115475_cities.txt', 'utf8', function(err, data) {  
     if (err) throw err;
     const arr = [];
     let ys = /   /g;
