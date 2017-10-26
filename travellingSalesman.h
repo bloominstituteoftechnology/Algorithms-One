@@ -3,7 +3,7 @@
  * Header file: travellingSalesman.h
  * 2017-10-25
  *
- * Version 0.3_b
+ * Version 0.3_d
  */
 
 /*

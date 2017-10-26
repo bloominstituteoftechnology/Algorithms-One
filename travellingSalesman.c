@@ -2,7 +2,7 @@
  * Traveling Salesman Problem (TSP)
  * 2017-10-25
  *
- * Version 0.3_c
+ * Version 0.3_d
   */
 
 #include "./travellingSalesman.h"
@@ -68,7 +68,7 @@ distance(char *city1, char *city2) {
 
 void
 printCity(struct City *city) {
-  printf("%s, %s (%d, %d)\n", city->name, city->state, city->x, city->y);
+  printf("%s, %s (%f, %f)\n", city->name, city->state, city->x, city->y);
 }
 
 struct City *
