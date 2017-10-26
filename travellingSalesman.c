@@ -2,30 +2,10 @@
  * Traveling Salesman Problem (TSP)
  * 2017-10-25
  *
- * Version 0.3_d
+ * Version 0.3_e
   */
 
 #include "./travellingSalesman.h"
-
-struct City Cities[] = /* Cities[] is a global variable */
-  {
-    "Denver",
-    "CO",
-    500.0,
-    500.0,
-    "Salt Lake City",
-    "UT",
-    300.0,
-    500.0,
-    "Cheyenne",
-    "WY",
-    500.0,
-    600.0,
-    "Santa Fe",
-    "NM",
-    500.0,
-    350.0,
-  };
 
 struct Route shortestRoute =
   {
@@ -36,22 +16,32 @@ struct Route shortestRoute =
 int
 main (int argc, char *argv[]) {
 
+  /* cities will contain the original set of names (city,st) to be permuted */
   char *cities[CITIES + 1];
 
+  /* fill cities with names, states */
   for (int c = 0; c < CITIES; c++) {
-    struct City city = Cities[c];
+    cities[c] = malloc(sizeof(char) * MAX_NAME_SIZE);
+
+    /* city contains one of the cities from the set; need to extract the name and state from it */
+    /* TODO: factor out the global variable CitiesSmallSet to use any set sent in */
+    struct City city = CitiesSmallSet[c]; /* small data set, now contained in the header file */
+
     /* city contains both a city name and state; catenate them together to avoid duplicate names */
-    strncat(cities[c], city.name, strlen(city.name)); /* don't want to modify the original */
+    /* combination cannot be larger than MAX_NAME_SIZE */
+    strncat(cities[c], city.name, strlen(city.name));
     strncat(cities[c], ",", 1);
     strncat(cities[c], city.state, 2);
   }
-  cities[CITIES] = NULL;
+  cities[CITIES] = NULL; /* necessary for data structure to work inside permute */
 
+  /* TODO: factor out CITIES global variable to work with any size set */
   permute(CITIES, cities, checkRoute);
 
   printf("The shortest distance is: %.2lf\n", shortestRoute.distance);
   display(shortestRoute.route);
 
+  /* TODO: need to free all malloced memory */
   return 0;
 }
 
@@ -74,15 +64,18 @@ printCity(struct City *city) {
 struct City *
 lookup(char *city) { /* city will be string with city name and state concatenated together */
   int i = 0;
-  while (&Cities[i] != NULL) {
+
+  while (&CitiesSmallSet[i] != NULL) {
     /* extract the city name and the state for comparison */
-    char *real_city, *real_state;
-    strncat(real_city, city, strlen(city - 3)); /* avoid the comma */
-    strncat(real_state, city + strlen(city - 2), 2);
+    char real_city[MAX_NAME_SIZE], real_state[3];
+    memset(real_city, 0, MAX_NAME_SIZE);
+    memset(real_state, 0, 3);
+    strncpy(real_city, city, (size_t)(strlen(city) - 3)); /* avoid the comma */
+    strncat(real_state, city + (strlen(city) - 2), (size_t)2);
 
     /* now find a match for both city and state */
-    if (strncmp(Cities[i].name, real_city, 0xf) == 0 && strncmp(Cities[i].state, real_state, 2) == 0)
-      return &Cities[i];
+    if (strncmp(CitiesSmallSet[i].name, real_city, MAX_NAME_SIZE) == 0 && strncmp(CitiesSmallSet[i].state, real_state, 2) == 0)
+      return &CitiesSmallSet[i];
     i++;
   }
   fprintf(stderr, "Failed to find city %s\n", city);

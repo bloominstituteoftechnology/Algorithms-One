@@ -3,7 +3,7 @@
  * Header file: travellingSalesman.h
  * 2017-10-25
  *
- * Version 0.3_d
+ * Version 0.3_e
  */
 
 /*
@@ -82,6 +82,28 @@ for each city start in l:
 #include "./loadCities.h"
 
 #define CITIES 4 /* number of data items in the original problem */
+#define MAX_NAME_SIZE 0x20 /* max size of city name */
+
+/* This is the small data set used to test the TSP problem */
+struct City CitiesSmallSet[] =
+  {
+    "Denver",
+    "CO",
+    500.0,
+    500.0,
+    "Salt Lake City",
+    "UT",
+    300.0,
+    500.0,
+    "Cheyenne",
+    "WY",
+    500.0,
+    600.0,
+    "Santa Fe",
+    "NM",
+    500.0,
+    350.0,
+  };
 
 /* NOTE: refactored to use the struct City defined in loadCities;
  *       this means that the x and y coordinates must be doubles,
@@ -89,11 +111,7 @@ for each city start in l:
  * ****************************************************************/
 /* A City struct contains the name of the city,
  * and its x and y coordinates */
-/* struct City { */
-/*   char *name; */
-/*   int x; */
-/*   int y; */
-/* }; */
+
 
 struct Route {
   char **route;
