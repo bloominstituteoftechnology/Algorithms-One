@@ -19,13 +19,15 @@ for(let i = 0; i < permCities.length; i++) {
     // add them all up
     if(j + 1 === permCities[i].length) {
       tempDist += distance(permCities[i][0], permCities[i][j]);
+      // console.log(permCities[i]);
+      // console.log(tempDist);
       if (tempDist <= BTL) {
         // compare to BTL. if smaller, replace BTL. replace BT
         // at the end of this whole loop, return BTL and BT
         BTL = tempDist;
         BT = permCities[i];
-        console.log(BTL);
-        console.log(BT);
+        // console.log(BTL);
+        // console.log(BT);
       }
       // console.log(tempDist);
     } else {
