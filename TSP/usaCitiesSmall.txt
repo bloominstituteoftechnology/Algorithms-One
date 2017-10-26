@@ -38,3 +38,4 @@
  34830.3643   87485.3023 | Aqua Vista | Lauderdale | AL
  31968.2064   88146.6822 | Ararat | Choctaw | AL
  31141.5693   85151.3196 | Ardilla | Houston | AL
+ 
