@@ -86,3 +86,4 @@ const usaCities = usaCitiesUnformatted.map((city) => {
 tsp.initialize();
 console.log(usaCities);
 allPermutationsTSP(usaCities);
+
