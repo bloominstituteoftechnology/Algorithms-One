@@ -2,7 +2,7 @@
  * Traveling Salesman Problem (TSP)
  * 2017-10-25
  * 
- * version 0.2_a
+ * version 0.2_b
  */
 
 /*
@@ -33,18 +33,13 @@
  * been performed:
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include "./minilab/heapsAlg.h"
-
-#define CITIES 4
+#include "./travellingSalesman.h"
 
 struct City {
   char *name;
   int x;
   int y;
-} Cities[] =
+} Cities[] = /* Cities[] is a global variable */
   {
     "Denver",
     500,
@@ -63,17 +58,9 @@ struct City {
 struct Route {
   char **route;
   double distance;
-} shortestRoute = {
+} shortestRoute = { /* shortestRoute is a global variable */
   NULL, -1
 };
-
-/* PROTOTYPES ...................*/
-void printCity(struct City *);
-double distance(char *, char *);
-struct City * lookup(char *);
-double roundTrip(char **);
-void checkRoute(char **);
-/*...............................*/
 
 int
 main (int argc, char *argv[]) {
