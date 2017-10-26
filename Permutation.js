@@ -1,5 +1,4 @@
 let arr = [], result = [];
-
 function permute(input) {
     let i, j;
     for (i = 0; i < input.length; i++) {
@@ -15,6 +14,6 @@ function permute(input) {
   return arr;
 };
 
-console.log(permute([1,2,3]));
+// console.log(permute([1,2,3]));
 console.log(permute(['a', 'b', 'c', 'd']));
-console.log(permute(['corn', 'turkey', 'winter', 'algebra', 'window']));
+// console.log(permute(['corn', 'turkey', 'winter', 'algebra', 'window']));
