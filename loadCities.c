@@ -2,7 +2,7 @@
  * loadCities.c
  * 2017-10-25
  *
- * Version 0.2_c
+ * Version 0.2_d
  *
  * Load usa115475_cities_a.txt and usa115475.tsp
  * format for use by Traveling Salesman Problem
@@ -10,7 +10,7 @@
 
 #include "./loadCities.h"
 
-struct City **
+struct City *
 loadCities(void) {
   /* open the two files for reading */
   FILE *cities = fopen(CITIES_FILE, READ);
@@ -30,7 +30,7 @@ loadCities(void) {
   char city_name[BUFSIZE];
   int result;
 
-  struct City **cities_arr = malloc(sizeof(struct City) * CITIES_SIZE);
+  struct City *cities_arr = malloc(sizeof(struct City) * CITIES_SIZE);
   int city_index = 0;
 
   // add city data to structs
@@ -44,7 +44,7 @@ loadCities(void) {
   
     struct City *cityStr = malloc(sizeof(struct City));
     fillCity(city, city_name, cityStr);
-    cities_arr[city_index] = cityStr;
+    cities_arr[city_index] = *cityStr;
   }
 
   if (result == -1)

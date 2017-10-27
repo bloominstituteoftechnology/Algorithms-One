@@ -30,7 +30,7 @@ extern int errno;
 
 /********* PROTOTYPES ***********/
 
-struct City **
+struct City *
 loadCities(void);
 
 /* Find the first line at which cities begins,
