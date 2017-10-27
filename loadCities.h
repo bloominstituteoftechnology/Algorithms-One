@@ -2,7 +2,7 @@
  * loadCities.h
  * 2017-10-25
  *
- * Version 0.2_c
+ * Version 0.2_d
  *
  * Load usa115475_cities_a.txt and usa115475.tsp
  * format for use by Traveling Salesman Problem
@@ -15,6 +15,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
+#include "./travellingSalesman.h"
 
 #define CITIES_FILE "./TSP/usa115475.tsp"
 /* NOTE: usa115475_cities.txt must first be processed by cityfilter.pl
@@ -25,16 +26,7 @@
 #define READ "r"
 #define BUFSIZE 100
 
-#endif
-
 extern int errno;
-
-struct City {
-  char *name;
-  char *state;
-  double x;
-  double y;
-};
 
 /********* PROTOTYPES ***********/
 
@@ -67,3 +59,4 @@ printCityInfo(struct City *);
 
 /********************************/
 
+#endif

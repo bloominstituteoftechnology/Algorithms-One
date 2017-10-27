@@ -3,7 +3,7 @@
  * Header file: travellingSalesman.h
  * 2017-10-25
  *
- * Version 0.3_h
+ * Version 0.3_i
  */
 
 /*
@@ -83,6 +83,13 @@ for each city start in l:
 
 #define CITIES 4 /* number of data items in the original problem */
 #define MAX_NAME_SIZE 0x20 /* max size of city name */
+
+struct City {
+  char *name;
+  char *state;
+  double x;
+  double y;
+};
 
 struct Route {
   char **route;
