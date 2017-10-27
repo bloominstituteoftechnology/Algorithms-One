@@ -1,11 +1,25 @@
 /*
  * Heap's Algorithm
- * heapsAlg.c
+ * heapsAlg.c  Version 1.0
  * 2017-10-25
  *
  */
 
-#include "./heapsAlg.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#include "ttsp.h"
+
+void
+swap(int, int, char **);
+/*****************************************************************/
+
+int
+isodd(int);
+/*****************************************************************/
+
+
 
 /***************************************************************************
  * Heap's Algorithm for permuting a set;
@@ -19,24 +33,32 @@
  * or it can be to a function that peforms some kind of calculation on the
  * current permutation.
  ***************************************************************************/
-void
-permute(int n, char **s, void (*fn)(char **)) {
+int
+permute(int n, char **s, void (*cb)(char **)) {
+  static int permutations = 0;
+  
   if (n == 1) {
-    (*fn)(s);
+    permutations++;
+    (*cb)(s);
   }
 
   else {
     for (int i = 0; i < n - 1; i++) {
 
-      permute(n - 1, s, fn);
+      permute(n - 1, s, cb);
 
       swap( isodd(n) ? 0 : i, n - 1, s);
     }
-    permute(n - 1, s, fn);
+    permute(n - 1, s, cb);
   }
+  return permutations;
 }
-/***************************************************************************/
 
+
+
+/***************************************************************************
+ * swaps two positions in a character array
+ ***************************************************************************/
 void
 swap(int a, int b, char **s) {
   char *t = s[a];
@@ -44,14 +66,23 @@ swap(int a, int b, char **s) {
   s[b] = t;
 }
 
+
+
+/***************************************************************************
+ * determines whether an integer is odd
+ ***************************************************************************/
 int
 isodd(int a) {
   return (int)fmod((double)a, 2.0);
 }
 
-/* this will  return the number of  elements of both rows  and columns
+
+
+/***************************************************************************
+ * this will  return the number of  elements of both rows  and columns
  * provided the size represents the  size of an element, i.e., MAXSIZE
- * (10) for rows and 1 for columns */
+ * (10) for rows and 1 for columns 
+ ***************************************************************************/
 int
 elements(char *s[], int size) { /* size represents the max size of an element */
   int i = 0;
@@ -60,6 +91,8 @@ elements(char *s[], int size) { /* size represents the max size of an element */
   return i - 1;
 }
 
+
+/***************************************************************************/
 void
 display(char *s[]) {
   int size = elements(s, 1);

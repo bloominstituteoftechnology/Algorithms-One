@@ -2,15 +2,51 @@
  * loadCities.c
  * 2017-10-25
  *
- * Version 0.2_d
+ * Version 0.3_a
  *
  * Load usa115475_cities_a.txt and usa115475.tsp
  * format for use by Traveling Salesman Problem
  */
 
-#include "./loadCities.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <math.h>
 
-struct City *
+#include "ttsp.h"
+
+#define CITIES_FILE "./TSP/usa115475.tsp"
+/* NOTE: usa115475_cities.txt must first be processed by cityfilter.pl
+         to produce usa115475_cities_a.txt so that the sscan library
+         function will work properly */
+#define CITIES_NAMES "./TSP/usa115475_cities_a.txt"
+#define BUFSIZE 100
+#define READ "r"
+extern struct City *setOfCities;
+extern int errno;
+
+
+void
+findFirstCity(FILE *);
+/******************************************************************/
+
+int
+getCity(FILE *, char *);
+/******************************************************************/
+
+void
+fillCity(char *, char *, struct City *);
+/******************************************************************/
+
+void
+printCityInfo(struct City *);
+/******************************************************************/
+
+
+
+/******************************************************************/
+int
 loadCities(void) {
   /* open the two files for reading */
   FILE *cities = fopen(CITIES_FILE, READ);
@@ -30,7 +66,7 @@ loadCities(void) {
   char city_name[BUFSIZE];
   int result;
 
-  struct City *cities_arr = malloc(sizeof(struct City) * CITIES_SIZE);
+  //struct City *cities_arr = malloc(sizeof(struct City) * CITIES_SIZE);
   int city_index = 0;
 
   // add city data to structs
@@ -44,7 +80,7 @@ loadCities(void) {
   
     struct City *cityStr = malloc(sizeof(struct City));
     fillCity(city, city_name, cityStr);
-    cities_arr[city_index] = *cityStr;
+    setOfCities[city_index++] = *cityStr;
   }
 
   if (result == -1)
@@ -54,7 +90,7 @@ loadCities(void) {
 
   printf("successfully loaded city data\n");
 
-  return cities_arr;
+  return city_index;
 
   /* NOTE: free city data at conclusion */
 
@@ -97,6 +133,8 @@ findFirstCity(FILE *fp) {
   }
 }
 
+
+
 int
 getCity(FILE *fp, char *city) {
   char *rl = fgets(city, BUFSIZE, fp);
@@ -115,7 +153,7 @@ getCity(FILE *fp, char *city) {
 }
 
 void
-fillCity(char *city, char *city_name, struct City * city_str) {
+fillCity(char *city, char *city_name, struct City *city_str) {
   int c, l;
   double x1, y1;
   if ((c = sscanf(city, "%d %lf %lf\n", &l, &x1, &y1)) != 3) {
