@@ -25,6 +25,5 @@ const computePermutations = (set) => {
   }
   return permute(set);
 }
-console.log(computePermutations(set1));
-console.log(computePermutations(set2));
-console.log(computePermutations(set3));
+
+module.exports = computePermutations;

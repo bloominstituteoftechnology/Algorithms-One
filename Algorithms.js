@@ -1,58 +1,14 @@
-/* Data Set:
-
-    Cities: [
-    {name:"Denver", x:500, y:500},
-    {name:"Salt Lake City", x:300, y:500},
-    {name:"Cheyenne", x:500, y:600},
-    {name:"Santa Fe", x:500, y:350]
-    ]
-
-The distance between two cities is:
-    distance_between = (city1, city2) -> {
-      return Math.sqrt((city1.x - city2.x)^2 + (city.1.y - city2.y)^2))
-    }
-
-All 4! permutations of `Cities`:
+const data = require('./usaCitiesJSON/usaCitiesJSON.js');
+const compPerm = require('./Computations.js');
 
 
-
-
-*/
-
-const permutations = [
-    [1,2,3,4],
-    [1,2,4,3],
-    [1,3,2,4],
-    [1,3,4,2],
-    [1,4,2,3],
-    [1,4,3,2],
-
-    [2,1,3,4],
-    [2,1,4,3],
-    [2,3,1,4],
-    [2,3,4,1],
-    [2,4,1,3],
-    [2,4,3,1],
-
-    [3,1,2,4],
-    [3,1,4,2],
-    [3,2,1,4],
-    [3,2,4,1],
-    [3,4,1,2],
-    [3,4,2,1],
-
-    [4,1,2,3],
-    [4,1,3,2],
-    [4,2,1,3],
-    [4,2,3,1],
-    [4,3,1,2]
-]
 const cities = [
   {name:"Denver", x:500, y:500},
   {name:"Salt Lake City", x:300, y:500},
   {name:"Cheyenne", x:500, y:600},
   {name:"Santa Fe", x:500, y:350}
 ]
+
 const distanceBetween = (city1, city2) => {
   return Math.sqrt(Math.pow((city1.x - city2.x), 2) + Math.pow((city1.y - city2.y), 2))
 }
@@ -62,6 +18,7 @@ const exhaustiveAlgorithm = (cities) => {
   let bestTripLength = Number.MAX_VALUE;
   //best_trip = []
   let bestTrip = [];
+  let permutations = compPerm(cities);
   //for each ordering in the permutations of C:
   for(let i = 0; i < permutations.length; i++) {
     //current_trip_length = 0
@@ -69,7 +26,7 @@ const exhaustiveAlgorithm = (cities) => {
     //for each pair in the ordering:
     for(let j = 0; j < permutations[i].length-1; j++) {
       //current_trip_length += distance_between(current_pair)
-      currentTripLength += distanceBetween(cities[permutations[i][j] -1], cities[permutations[i][j+1] -1]);
+      currentTripLength += distanceBetween(permutations[i][j], permutations[i][j+1]);
     }
     //if(current_trip_length < best_trip_length)
     if(currentTripLength < bestTripLength) {       
@@ -82,7 +39,7 @@ const exhaustiveAlgorithm = (cities) => {
   const result = [];
   i = 0;
   while(i < bestTrip.length) {
-    result.push(cities[bestTrip[i]-1])
+    result.push(cities[bestTrip])
     i++
   }
   return {bestTripLength, result}
@@ -139,6 +96,8 @@ const thomsonNeighborSearch = (cities) => {
   }
   return {bestPath, bestDistance};
 }
-console.log(exhaustiveAlgorithm(cities));
-console.log(nearestNeighborSearch(cities));
-console.log(thomsonNeighborSearch(cities));
+
+const arr = data();
+const checkTime = arr.splice(0, arr.length);
+console.log("Amount is:" + checkTime.length)
+console.log(thomsonNeighborSearch(checkTime));
