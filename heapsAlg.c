@@ -62,8 +62,8 @@ elements(char *s[], int size) { /* size represents the max size of an element */
 
 void
 display(char *s[]) {
-  count++;
   int size = elements(s, 1);
+
   printf("[");
   for (int i = 0; i < size; i++)
     printf("%s%s", i>0?", ":"",s[i]);

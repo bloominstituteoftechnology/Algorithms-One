@@ -13,11 +13,20 @@
 #include <string.h>
 #include <math.h>
 
-void permute(int, char **, void (*fn)(char **));
-void swap(int, int, char **);
-int isodd(int);
-int elements(char **, int);
-void display(char **);
+void
+permute(int, char **, void (*fn)(char **));
+
+void
+swap(int, int, char **);
+
+int
+isodd(int);
+
+int
+elements(char **, int);
+
+void
+display(char **);
 
 #define MAXSIZE 10 /* largest number of elements allowed in a row */
 int count; /* count of permutations for a set */
