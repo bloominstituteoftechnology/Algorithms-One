@@ -3,7 +3,7 @@
  * Header file: travellingSalesman.h
  * 2017-10-25
  *
- * Version 0.3_g
+ * Version 0.3_h
  */
 
 /*
@@ -78,33 +78,11 @@ for each city start in l:
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "./minilab/heapsAlg.h"
+#include "./heapsAlg.h"
 #include "./loadCities.h"
 
 #define CITIES 4 /* number of data items in the original problem */
 #define MAX_NAME_SIZE 0x20 /* max size of city name */
-
-/* This is the small data set used to test the TSP problem */
-struct City CitiesSmallSet[] =
-  {
-    "Denver",
-    "CO",
-    500.0,
-    500.0,
-    "Salt Lake City",
-    "UT",
-    300.0,
-    500.0,
-    "Cheyenne",
-    "WY",
-    500.0,
-    600.0,
-    "Santa Fe",
-    "NM",
-    500.0,
-    350.0,
-  };
-
 
 struct Route {
   char **route;
@@ -112,7 +90,7 @@ struct Route {
 };
 
 int
-doPermutations(struct City **, int, void(*fn)(char **));
+doPermutations(struct City *, int, void(*fn)(char **));
 
 /* Given a City struct, print its components */
 void
@@ -137,6 +115,6 @@ roundTrip(char **, struct City *);
 /* Given a set of cities, keep track of the shortest
  * distance set */
 void
-checkRoute(char **, struct City *);
+checkRoute(char **, struct City *, struct Route shortestRoute);
 
 #endif

@@ -2,20 +2,21 @@
  * Traveling Salesman Problem (TSP)
  * 2017-10-25
  *
- * Version 0.3_g
-  */
+ * Version 0.3_h
+ */
 
 #include "./travellingSalesman.h"
-
-/* TODO: refactor this variable so it is no longer a global */
-struct Route shortestRoute =
-  {
-    NULL,
-    -1
-  };
+#include "./heapsAlg.h"
 
 int
-doPermutations (struct City *setOfCities[], int numCities, void (*fn)(char **)) {
+doPermutations (struct City setOfCities[], int numCities, void (*fn)(char **)) {
+
+  /* variable to keep track of shortest route */
+  struct Route shortestRoute =
+    {
+      NULL,
+      -1
+    };
 
   /* cities will contain the original set of names (city,st) to be permuted */
   char *cities[numCities];
@@ -26,7 +27,7 @@ doPermutations (struct City *setOfCities[], int numCities, void (*fn)(char **)) 
 
     /* city contains one of the cities from the set; need to extract the name and state from it */
     /* TODO: factor out the global variable CitiesSmallSet to use any set sent in */
-    struct City *city = setOfCities[c]; /* small data set, now contained in the header file */
+    struct City *city = &setOfCities[c]; /* small data set, now contained in the header file */
 
     /* city contains both a city name and state; catenate them together to avoid duplicate names */
     /* combination cannot be larger than MAX_NAME_SIZE */
@@ -39,8 +40,11 @@ doPermutations (struct City *setOfCities[], int numCities, void (*fn)(char **)) 
   /* TODO: factor out CITIES global variable to work with any size set */
   permute(numCities, cities, fn);
 
-  printf("The shortest distance is: %.2lf\n", shortestRoute.distance);
-  display(shortestRoute.route);
+  if (shortestRoute.route != NULL) {
+    printf("The shortest distance is: %.2f\n", shortestRoute.distance);
+    display(shortestRoute.route);
+  }
+
 
   /* TODO: need to free all malloced memory */
   return 0;
@@ -53,8 +57,7 @@ distance(char *city1, char *city2, struct City *setOfCities) {
   double dist_x = city2_s->x - city1_s->x;
   double dist_y = city2_s->y - city1_s->y;
   double dist = sqrt(dist_x * dist_x + dist_y * dist_y);
-
-  return sqrt(dist_x * dist_x + dist_y * dist_y);
+  return dist;
 }
 
 void
@@ -95,14 +98,10 @@ roundTrip(char **tripset, struct City *setOfCities) {
   return roundTripDistance;
 }
 
-void checkRoute(char **tripset, struct City *setOfCities) {
+void checkRoute(char **tripset, struct City *setOfCities, struct Route shortestRoute) {
   double distance = roundTrip(tripset, setOfCities);
   if (shortestRoute.distance == -1 || distance < shortestRoute.distance) {
     shortestRoute.route = tripset;
     shortestRoute.distance = distance;
   }
 }
-
-
-
-
