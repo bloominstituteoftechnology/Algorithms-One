@@ -1,7 +1,7 @@
 /*
  * Traveling Salesman Problem (TSP)
  * main()
- * version 0.4_b
+ * version 0.4_c
  * 2017-10-28
  */
 
@@ -14,25 +14,11 @@
 
 static struct City CitiesSmallSet[] =
   {
-    "Denver",
-    "CO",
-    500.0,
-    500.0,
-    "Salt Lake City",
-    "UT",
-    300.0,
-    500.0,
-    "Cheyenne",
-    "WY",
-    500.0,
-    600.0,
-    "Santa Fe",
-    "NM",
-    500.0,
-    350.0,
+    {"Denver",         "CO", {500.0, 500.0}},
+    {"Salt Lake City", "UT", {300.0, 500.0}},
+    {"Cheyenne",       "WY", {500.0, 600.0}},
+    {"Santa Fe",       "NM", {500.0, 350.0}},
   };
-
-
 
 
 /*****************************************************************
@@ -49,23 +35,19 @@ static struct City CitiesSmallSet[] =
 struct City *setOfCities;
 
 
-
-/*****************************************************************/
 int main(int argc, char *argv[]) {
-
   int result;
 
-  /* the  original data  set of  four items;  see CitiesSmallSet,
-     above */
-  setOfCities = CitiesSmallSet;
+  setOfCities = CitiesSmallSet; /* see above */
   result = doPermutations(CITIES, STRING_ARRAY, display);
   printf("Result: %d\n", result);
 
   /* a bigger data set from text file of 115,000 plus cities */
+
   /* setOfCities = malloc(sizeof(struct City) * CITIES_SIZE); */
   /* result = loadCities(); */
   /* printf("loaded %d records into setOfCities\n", result); */
-
   /* result = doPermutations(10, checkRoute); */
   /* printf("Number of Permutations: %d\n", result); */
-}
+
+} /* main() */

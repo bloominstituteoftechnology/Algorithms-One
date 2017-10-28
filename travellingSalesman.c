@@ -2,7 +2,7 @@
  * Traveling Salesman Problem (TSP)
  * 2017-10-28
  *
- * Version 0.4_b
+ * Version 0.4_c
  */
 
 #include <stdio.h>
@@ -27,17 +27,20 @@ shortestRoute = {NULL, DBL_MAX};
 
 int
 doPermutations (int numCities, int dtype, void (*cb)(union Permuter *, int)) {
+  int c, result;
+  char *cities[numCities]; /* variable length array */
+  struct City *city;
+
   /* prepare the Permuter */
   permuter = malloc(sizeof(union Permuter)); /* declared in header */
   permuter->size = numCities;
-  char *cities[numCities];
 
   switch (dtype) {
   case STRING_ARRAY:
     /* fill cities array with combined city names and state abbr's */
-    for (int c = 0; c < numCities; c++) {
+    for (c = 0; c < numCities; c++) {
       cities[c] = malloc(sizeof(char) * MAX_NAME_SIZE);
-      struct City *city = &setOfCities[c];
+      city = &setOfCities[c];
       /* 'city'  contains both  a  city name  and  state; catenate  them
          together  to  disambiguate  duplicate city  names;  combination
          cannot be larger than MAX_NAME_SIZE */
@@ -52,7 +55,7 @@ doPermutations (int numCities, int dtype, void (*cb)(union Permuter *, int)) {
 
   /* now call  Heap's Algorithm  permute function; include the callback
      that will be called after every permutation */
-  int result = permute(numCities, permuter, dtype, cb);
+  result = permute(numCities, permuter, dtype, cb);
 
   /* upon return, display shortest route information if it was calculated */
   if (shortestRoute.route != NULL) {
@@ -84,9 +87,9 @@ printCity(struct City *city) {
 
 struct City *
 lookup(char *city, int size) {
-  /* city will be string with city name and state concatenated together */
   int i = 0;
 
+  /* city will be string with city name and state concatenated together */
   while (i < size) {
     /* extract the city name and the state for comparison */
     char real_city[MAX_NAME_SIZE], real_state[3];
@@ -108,19 +111,18 @@ lookup(char *city, int size) {
 
 double
 roundTrip(union Permuter *permuter, int ptype) {
+  int i, n;
   double roundTripDistance = 0;
-  int n = permuter->size;
-  if (n == 1) return 0;
-
-  struct City *tripset_str;
-
+  struct City *tripset_str, *city1, *city2;
   char **tripset_arr;
-  struct City *city1, *city2;
+
+  n = permuter->size;
+  if (n == 1) return 0;
 
   switch (ptype) {
   case STRING_ARRAY:
     tripset_arr = permuter->cities_arr;
-    for (int i = 1; i < n; i++) {
+    for (i = 1; i < n; i++) {
       /* This is the reason for  the Permuter: to avoid this expensive
          lookup for each permutation to obtain a city's coordinates to
          calculate distance */
@@ -136,7 +138,7 @@ roundTrip(union Permuter *permuter, int ptype) {
 
   case CITY_STRUCT:
     tripset_str = permuter->cities_str;
-    for (int i = 1; i < n; i++) {
+    for (i = 1; i < n; i++) {
       city1 = &tripset_str[i-1];
       city2 = &tripset_str[i];
       roundTripDistance += distance(city1->coord, city2->coord);

@@ -2,7 +2,7 @@
  * loadCities.c
  * 2017-10-28
  *
- * Version 0.3_b
+ * Version 0.3_c
  *
  * Load usa115475_cities_a.txt and usa115475.tsp
  * format for use by Traveling Salesman Problem
@@ -44,13 +44,18 @@ printCityInfo(struct City *);
 /******************************************************************/
 
 
-
-/******************************************************************/
 int
 loadCities(void) {
+  FILE *cities, *cities_names;
+  char city[BUFSIZE];
+  char city_name[BUFSIZE];
+  int result, city_index;
+
+  struct City *cityStr;
+
   /* open the two files for reading */
-  FILE *cities = fopen(CITIES_FILE, READ);
-  FILE *cities_names = fopen(CITIES_NAMES, READ);
+  cities = fopen(CITIES_FILE, READ);
+  cities_names = fopen(CITIES_NAMES, READ);
   if (cities == NULL || cities_names == NULL) {
     fprintf(stderr, "Failed to open cities or cities_names\n");
     exit(EXIT_FAILURE);
@@ -62,23 +67,19 @@ loadCities(void) {
 
   /* read city data and place the city's name, state, and
    * coordinates in a structure */
-  char city[BUFSIZE];
-  char city_name[BUFSIZE];
-  int result;
 
-  //struct City *cities_arr = malloc(sizeof(struct City) * CITIES_SIZE);
-  int city_index = 0;
+  city_index = 0;
 
-  // add city data to structs
+  /* add city data to structs */
   while ((result = getCity(cities, city)) == 1) {
-    // get a city name line
+    /* get a city name line */
     result = getCity(cities_names, city_name);
     if (result != 1) {
       fprintf(stderr, "Error reading cities_names\n");
       exit(EXIT_FAILURE);
     }
   
-    struct City *cityStr = malloc(sizeof(struct City));
+    cityStr = malloc(sizeof(struct City));
     fillCity(city, city_name, cityStr);
     setOfCities[city_index++] = *cityStr;
   }
@@ -103,7 +104,6 @@ findFirstCity(FILE *fp) {
   char line[BUFSIZE];
   char *rl;
   char c;
-  int rc;
 
   while (1) {
     clearerr(fp);
@@ -155,28 +155,32 @@ getCity(FILE *fp, char *city) {
 void
 fillCity(char *city, char *city_name, struct City *city_str) {
   int c, l;
-  double x1, y1;
-  
+  double x1, y1, x2, y2;
+  struct Coord city_coord;
+  char name[BUFSIZE], county[BUFSIZE], state[2];
+  char *n, *s;
+
+  /* read the next line from city file */
   if ((c = sscanf(city, "%d %lf %lf\n", &l, &x1, &y1)) != 3) {
     fprintf(stderr, "Failed to read three numbers in city\n");
     exit(EXIT_FAILURE);
   }
-  struct Coord city_coord = {x1, y1};
+  city_coord.x = x1;
+  city_coord.y = y1;
 
-  char name[BUFSIZE], county[BUFSIZE], state[2];
-  double x2, y2;
-
+  /* read the nextline from city_name file; the cities must be the same */
   if ((c = sscanf(city_name, "%lf %lf %s %s %s", &x2, &y2, name, county, state)) != 5) {
     fprintf(stderr, "Failed to read five numbers in city names; read %d %s\n", c, name);
     exit(EXIT_FAILURE);
   }
 
+  /* check coordinates for equality */
   if (fabs(x1 - x2) > .01) {
     fprintf(stderr, "Different coordinates in line %d, city and state: %s, %s\n", l, name, state);
   }
 
-  char *n = malloc(strlen(name));
-  char *s = malloc(2);
+  n = malloc(strlen(name));
+  s = malloc(2);
   /* TODO: free n & s */
   strcpy(n, name);
   strcpy(s, state);
