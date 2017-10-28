@@ -1,6 +1,4 @@
-travellingSalesman:	heapsAlg.h heapsAlg.c
-	clang -o travellingSalesman ./minilab/heapsAlg.c travellingSalesman.c
+ttsp:	heapsAlg.o loadCities.o travellingSalesman.o TTSP.o
+	clang -o ttsp heapsAlg.c loadCities.c travellingSalesman.c TTSP.c
 
-heapsAlg.h:
-
-heapsAlg.c:
+heapsAlg.o loadCities.o travellingSalesman.o TTSP.o:	ttsp.h

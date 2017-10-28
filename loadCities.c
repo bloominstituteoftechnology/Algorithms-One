@@ -1,8 +1,8 @@
 /*
  * loadCities.c
- * 2017-10-25
+ * 2017-10-28
  *
- * Version 0.3_a
+ * Version 0.3_b
  *
  * Load usa115475_cities_a.txt and usa115475.tsp
  * format for use by Traveling Salesman Problem
@@ -156,10 +156,12 @@ void
 fillCity(char *city, char *city_name, struct City *city_str) {
   int c, l;
   double x1, y1;
+  
   if ((c = sscanf(city, "%d %lf %lf\n", &l, &x1, &y1)) != 3) {
     fprintf(stderr, "Failed to read three numbers in city\n");
     exit(EXIT_FAILURE);
   }
+  struct Coord city_coord = {x1, y1};
 
   char name[BUFSIZE], county[BUFSIZE], state[2];
   double x2, y2;
@@ -175,16 +177,16 @@ fillCity(char *city, char *city_name, struct City *city_str) {
 
   char *n = malloc(strlen(name));
   char *s = malloc(2);
+  /* TODO: free n & s */
   strcpy(n, name);
   strcpy(s, state);
 
-  city_str->x = x1;
-  city_str->y = y1;
   city_str->name = n;
   city_str->state = s;
+  city_str->coord = city_coord;
 }
 
 void
 printCityInfo(struct City *city) {
-  printf("%s, %s (%f, %f)\n", city->name, city->state, city->x, city->y);
+  printf("%s, %s (%f, %f)\n", city->name, city->state, city->coord.x, city->coord.y);
 }

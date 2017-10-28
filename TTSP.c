@@ -1,8 +1,8 @@
 /*
  * Traveling Salesman Problem (TSP)
  * main()
- * version 0.4_a
- * 2017-10-26
+ * version 0.4_b
+ * 2017-10-28
  */
 
 #include <stdlib.h>
@@ -57,15 +57,15 @@ int main(int argc, char *argv[]) {
 
   /* the  original data  set of  four items;  see CitiesSmallSet,
      above */
-  /* setOfCities = CitiesSmallSet; */
-  /* int result = doPermutations(CITIES, display); */
-  /* printf("Result: %d\n", result); */
+  setOfCities = CitiesSmallSet;
+  result = doPermutations(CITIES, STRING_ARRAY, display);
+  printf("Result: %d\n", result);
 
   /* a bigger data set from text file of 115,000 plus cities */
-  setOfCities = malloc(sizeof(struct City) * CITIES_SIZE);
-  result = loadCities();
-  printf("loaded %d records into setOfCities\n", result);
+  /* setOfCities = malloc(sizeof(struct City) * CITIES_SIZE); */
+  /* result = loadCities(); */
+  /* printf("loaded %d records into setOfCities\n", result); */
 
-  result = doPermutations(10, checkRoute);
-  printf("Number of Permutations: %d\n", result);
+  /* result = doPermutations(10, checkRoute); */
+  /* printf("Number of Permutations: %d\n", result); */
 }

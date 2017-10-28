@@ -1,110 +1,93 @@
 /*
  * Traveling Salesman Problem (TSP)
- * 2017-10-25
+ * 2017-10-28
  *
- * Version 0.4_a
+ * Version 0.4_b
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <float.h>
 
 #include "ttsp.h"
 
 
-
-double
-distance(char *, char *);
-/*****************************************************************/
-
-struct City *
-lookup(char *);
-/*****************************************************************/
-
-double
-roundTrip(char **);
-/*****************************************************************/
-
+extern struct City *setOfCities;
+/* this  variable holds  the  set  of cities  to  be  permuted; it  is
+   initialized in TTSP */
 
 
 struct Route
-shortestRoute = /* keeps track of shortest route found so far */
-  {
-    NULL,
-    -1
-  };
-
-extern struct City *setOfCities;
+shortestRoute = {NULL, DBL_MAX};
+/* if  checkRoute() is  used  as a  callback  in doPermutations,  this
+   variable will hold the shortest route found so far. */
 
 
-/***************************************************************************/
 int
-doPermutations (int numCities, void (*cb)(char **)) {
-  /* fn  is  a  callback  that  will  be  sent  into  the  permutation
-     algorithm */
+doPermutations (int numCities, int dtype, void (*cb)(union Permuter *, int)) {
+  /* prepare the Permuter */
+  permuter = malloc(sizeof(union Permuter)); /* declared in header */
+  permuter->size = numCities;
+  char *cities[numCities];
 
-  /* 'numCities' contains the number of  data elements to be permuted;
-     'cities' will contain the original set of names (city,st) */
+  switch (dtype) {
+  case STRING_ARRAY:
+    /* fill cities array with combined city names and state abbr's */
+    for (int c = 0; c < numCities; c++) {
+      cities[c] = malloc(sizeof(char) * MAX_NAME_SIZE);
+      struct City *city = &setOfCities[c];
+      /* 'city'  contains both  a  city name  and  state; catenate  them
+         together  to  disambiguate  duplicate city  names;  combination
+         cannot be larger than MAX_NAME_SIZE */
+      strncpy(cities[c], city->name, strlen(city->name));
+      strncat(cities[c], ",", 1);
+      strncat(cities[c], city->state, 2);
+    }
+    permuter->cities_arr = cities;
+  case CITY_STRUCT:
+    permuter->cities_str = setOfCities;
+  } /* end switch dtype */
 
-  char *cities[numCities + 1];
+  /* now call  Heap's Algorithm  permute function; include the callback
+     that will be called after every permutation */
+  int result = permute(numCities, permuter, dtype, cb);
 
-  /* fill cities with names and states combined */
-  for (int c = 0; c < numCities; c++) {
-    cities[c] = malloc(sizeof(char) * MAX_NAME_SIZE);
-    struct City *city = &setOfCities[c];
-    /* 'city'  contains both  a  city name  and  state; catenate  them
-       together  to  disambiguate  duplicate city  names;  combination
-       cannot be larger than MAX_NAME_SIZE */
-    strncpy(cities[c], city->name, strlen(city->name));
-    strncat(cities[c], ",", 1);
-    strncat(cities[c], city->state, 2);
-  }
-  cities[numCities] = NULL; /* represents the end of the data set */
-
-  /* call Heap's  Algorithm permute function; include  a callback that
-     will be called after every permutation */
-  int result = permute(numCities, cities, cb);
-
-  /* only display shortest route information if it was calculated */
+  /* upon return, display shortest route information if it was calculated */
   if (shortestRoute.route != NULL) {
     printf("The shortest distance is: %.2f\n", shortestRoute.distance);
-    display(shortestRoute.route);
+    display(shortestRoute.route, numCities);
   }
 
   /* TODO: need to free all malloced memory */
   return result;
-}
+} /* doPermutations() */
 
 
-/***************************************************************************/
 double
-distance(char *city1, char *city2) {
-  struct City *city1_s = lookup(city1);
-  struct City *city2_s = lookup(city2);
-  double dist_x = city2_s->x - city1_s->x;
-  double dist_y = city2_s->y - city1_s->y;
+distance(struct Coord city1, struct Coord city2) {
+  /* struct City *city1_s = lookup(city1); */
+  /* struct City *city2_s = lookup(city2); */
+  double dist_x = city2.x - city1.x;
+  double dist_y = city2.y - city1.y;
   double dist = sqrt(dist_x * dist_x + dist_y * dist_y);
   return dist;
-}
+} /* distance() */
 
 
-
-/***************************************************************************/
 void
 printCity(struct City *city) {
-  printf("%s, %s (%f, %f)\n", city->name, city->state, city->x, city->y);
-}
+  printf("%s, %s (%f, %f)\n", city->name, city->state, city->coord.x, city->coord.y);
+} /* printCity() */
 
 
-
-/***************************************************************************/
 struct City *
-lookup(char *city) {
+lookup(char *city, int size) {
   /* city will be string with city name and state concatenated together */
   int i = 0;
 
-  while (&setOfCities[i] != NULL) {
+  while (i < size) {
     /* extract the city name and the state for comparison */
     char real_city[MAX_NAME_SIZE], real_state[3];
     memset(real_city, 0, MAX_NAME_SIZE);
@@ -113,40 +96,72 @@ lookup(char *city) {
     strncat(real_state, city + (strlen(city) - 2), (size_t)2);
 
     /* now find a match for both city and state */
-    if (strncmp(setOfCities[i].name, real_city, MAX_NAME_SIZE) == 0 && strncmp(setOfCities[i].state, real_state, 2) == 0)
+    if (strncmp(setOfCities[i].name, real_city, MAX_NAME_SIZE) == 0 &&
+        strncmp(setOfCities[i].state, real_state, 2) == 0)
       return &setOfCities[i];
     i++;
   }
   fprintf(stderr, "Failed to find city %s\n", city);
   exit(EXIT_FAILURE);
-}
+} /* lookup() */
 
 
-
-/***************************************************************************/
 double
-roundTrip(char **tripset) {
+roundTrip(union Permuter *permuter, int ptype) {
   double roundTripDistance = 0;
-  int n = elements(tripset, 1);
+  int n = permuter->size;
   if (n == 1) return 0;
 
-  for (int i = 1; i < n; i++)
-    roundTripDistance += distance(tripset[i-1], tripset[i]);
-  roundTripDistance += distance(tripset[0], tripset[n-1]);
-  return roundTripDistance;
-}
+  struct City *tripset_str;
 
+  char **tripset_arr;
+  struct City *city1, *city2;
 
+  switch (ptype) {
+  case STRING_ARRAY:
+    tripset_arr = permuter->cities_arr;
+    for (int i = 1; i < n; i++) {
+      /* This is the reason for  the Permuter: to avoid this expensive
+         lookup for each permutation to obtain a city's coordinates to
+         calculate distance */
+      city1 = lookup(tripset_arr[i - 1], n);
+      city2 = lookup(tripset_arr[i], n);
+      roundTripDistance += distance(city1->coord, city2->coord);
+    }
+    /* and these lookups */
+    city1 = lookup(tripset_arr[0], n);
+    city2 = lookup(tripset_arr[n-1], n);
+    roundTripDistance += distance(city1->coord, city2->coord);
+    break;
 
-/***************************************************************************/
-void
-checkRoute(char **tripset) {
-  double distance = roundTrip(tripset);
-  if (shortestRoute.distance == -1 || distance < shortestRoute.distance) {
-    shortestRoute.route = tripset;
-    shortestRoute.distance = distance;
+  case CITY_STRUCT:
+    tripset_str = permuter->cities_str;
+    for (int i = 1; i < n; i++) {
+      city1 = &tripset_str[i-1];
+      city2 = &tripset_str[i];
+      roundTripDistance += distance(city1->coord, city2->coord);
+    }
+    city1 = &tripset_str[0];
+    city2 = &tripset_str[n-1];
+    roundTripDistance += distance(city1->coord, city2->coord);
+    break;
   }
-}
+
+  return roundTripDistance;
+} /* roundTrip() */
+
 
 void
-doNothing(char **nothing) {}
+checkRoute(union Permuter *permuter, int ptype) {
+  double distance = roundTrip(permuter, ptype);
+
+  if (distance < shortestRoute.distance) {
+    shortestRoute.distance = distance;
+    shortestRoute.route = permuter;
+  }
+} /* checkRoute() */
+
+
+void
+doNothing(union Permuter *nada, int empty) {}
+/* doNothing() */
