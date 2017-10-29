@@ -1,6 +1,6 @@
 /*
- * Traveling Salesman Problem (TSP)
- * main()
+ * The Traveling Salesman Problem (TTSP)
+ * TTSP.c main()
  * version 0.4_c
  * 2017-10-28
  */
