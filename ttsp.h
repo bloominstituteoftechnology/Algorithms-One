@@ -2,14 +2,17 @@
  * ttsp.h
  * The Traveling Salesman Problem (TTSP)
  * header file
- * version 0.4_b
+ * version 0.4_c
  * 2017-10-28
  */
 
 #define MAX_NAME_SIZE 0x20 /* max size of city name */
 #define READ "r"
-#define CITIES 4 /* number of data items in the original problem */
+#define CITIES_SMALL 4 /* number of data items in the original problem */
 #define CITIES_SIZE 115475 /* number of cities in the usa city text files */
+#define CITIES_BIG 10 /* number of data items to use from city text files */
+#define RUN_SMALL_DATA_SET 0 /* by default, run the small data set */
+#define RUN_LARGE_DATA_SET 1 /* run the large data set */
 #define STRING_ARRAY 1 /* type of permuter: array of city names */
 #define CITY_STRUCT  2 /* type of permuter: struct City */
 

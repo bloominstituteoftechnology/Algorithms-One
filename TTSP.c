@@ -1,7 +1,7 @@
 /*
  * The Traveling Salesman Problem (TTSP)
  * TTSP.c main()
- * version 0.4_c
+ * version 0.4_d
  * 2017-10-28
  */
 
@@ -36,18 +36,40 @@ struct City *setOfCities;
 
 
 int main(int argc, char *argv[]) {
-  int result;
+  int result, data_set, data_set_size;
 
-  setOfCities = CitiesSmallSet; /* see above */
-  result = doPermutations(CITIES, STRING_ARRAY, display);
-  printf("Result: %d\n", result);
+  /* be default, run the small data set */
+  data_set = RUN_SMALL_DATA_SET;
+  data_set_size = CITIES_SMALL;
 
-  /* a bigger data set from text file of 115,000 plus cities */
+  if (argc >= 2) {
+    if (*argv[1] == 'L') { /* usage: `ttsp L' */
+      data_set = RUN_LARGE_DATA_SET;
+      data_set_size = CITIES_BIG;
+      if (argc == 3)
+        data_set_size = atoi(argv[2]);
+    }
+  }
 
-  /* setOfCities = malloc(sizeof(struct City) * CITIES_SIZE); */
-  /* result = loadCities(); */
-  /* printf("loaded %d records into setOfCities\n", result); */
-  /* result = doPermutations(10, checkRoute); */
-  /* printf("Number of Permutations: %d\n", result); */
+  switch (data_set) {
+
+  case RUN_SMALL_DATA_SET:
+    
+    /* a small default data set; see above */
+    setOfCities = CitiesSmallSet;
+    result = doPermutations(data_set_size, STRING_ARRAY, display);
+    printf("Result: %d\n", result);
+    break;
+
+  case RUN_LARGE_DATA_SET:
+
+    /* a bigger data set from text file of 115,000 plus cities */
+    setOfCities = malloc(sizeof(struct City) * CITIES_SIZE);
+    result = loadCities();
+    printf("loaded %d records into setOfCities\n", result);
+    result = doPermutations(data_set_size, CITY_STRUCT, checkRoute);
+    printf("Number of Permutations: %d\n", result);
+    break;
+  }
 
 } /* main() */
