@@ -2,7 +2,7 @@
  * Traveling Salesman Problem (TSP)
  * 2017-10-28
  *
- * Version 0.4_d
+ * Version 0.5
  */
 
 #include <stdio.h>

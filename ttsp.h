@@ -2,7 +2,7 @@
  * ttsp.h
  * The Traveling Salesman Problem (TTSP)
  * header file
- * version 0.4_c
+ * version 0.5
  * 2017-10-28
  */
 

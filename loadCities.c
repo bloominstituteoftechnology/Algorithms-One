@@ -2,7 +2,7 @@
  * loadCities.c
  * 2017-10-28
  *
- * Version 0.3_c
+ * Version 0.4
  *
  * Load usa115475_cities_a.txt and usa115475.tsp
  * format for use by Traveling Salesman Problem
