@@ -11,8 +11,6 @@
 #define CITIES_SMALL 4 /* number of data items in the original problem */
 #define CITIES_SIZE 115475 /* number of cities in the usa city text files */
 #define CITIES_BIG 10 /* number of data items to use from city text files */
-#define RUN_SMALL_DATA_SET 0 /* by default, run the small data set */
-#define RUN_LARGE_DATA_SET 1 /* run the large data set */
 #define STRING_ARRAY 1 /* type of permuter: array of city names */
 #define CITY_STRUCT  2 /* type of permuter: struct City */
 
@@ -52,11 +50,26 @@ struct City {
  *
  ***************************************************************************/
 
+struct Dtype {
+  int dtype;
+  int size;
+};
+/***************************************************************************
+ * Structure to hold the type of data structure being used in the Permuter
+ * and the number of data items in the structure.
+ * =========================================================================
+ *
+ * int ptype: STRING_ARRAY | CITY_STRUCT
+ * ---------
+ *
+ * int size: number of data items in the set being permuted
+ * --------
+ *
+ ***************************************************************************/
 
 union Permuter {
   char **cities_arr;
   struct City *cities_str;
-  int size;
 } *permuter;
 /***************************************************************************
  * Wrapper data structure that can hold either an array of strings as city
@@ -93,7 +106,7 @@ struct Route {
 
 
 int
-permute(int, union Permuter *, int, void (*)(union Permuter *, int));
+permute(int, union Permuter *, struct Dtype, void (*)(union Permuter *, struct Dtype));
 /***************************************************************************
  * main entry into Heap's Algorithm; recursive
  * =========================================================================
@@ -104,8 +117,8 @@ permute(int, union Permuter *, int, void (*)(union Permuter *, int));
  * union Permuter: object that holds the current data set:
  * --------------  char ** | struct City *
  *
- * int: type identifier of the Permuter: STRING_ARRAY |
- * ---                                   CITY_STRUCT
+ * struct Dtype: structure holding type of data structure and size
+ * ------------  type := STRING_ARRAY | CITY_STRUCT
  *
  * (*)(union Permuter *, int): callback function for the permute
  * -------------------------- procedure; int param is type of
@@ -117,16 +130,15 @@ permute(int, union Permuter *, int, void (*)(union Permuter *, int));
  ***************************************************************************/
 
 int
-doPermutations (int, int, void (*)(union Permuter *, int));
+doPermutations (struct Dtype, void (*)(union Permuter *, struct Dtype));
 /***************************************************************************
  * main() call into Heap's Algorithm
  * =========================================================================
  *
- * int: size of data set in the permuter object
- * ---
- *
- * int: type of permuter: STRING_ARRAY := char ** | 
- * ---                    CITY_STRUCT  := struct City *
+ * struct Ptype: structuret that holds the type of data structure, and the
+ * ____________  size of data structure
+ * int: type of data structure: STRING_ARRAY := char ** | 
+ *                              CITY_STRUCT  := struct City *
  *                        
  * (*)(union Permuter *, int): the callback function called by permute() 
  * --------------------------  after every permutation; can be one of:
@@ -179,7 +191,7 @@ printCity(struct City *);
  ***************************************************************************/
 
 void
-display(union Permuter *, int);
+display(union Permuter *, struct Dtype);
 /***************************************************************************
  * Displays the contents of the Permuter in a visually explcit way
  * =========================================================================
@@ -187,8 +199,8 @@ display(union Permuter *, int);
  * union Permuter *: the Permuter to display
  * ----------------
  *
- * int: the Permuter's type: STRING_ARRAY | CITY_STRUCT
- * ---
+ * struct Dtype: structure holding the data structure type and size
+ * ------------  type := STRING_ARRAY | CITY_STRUCT
  *
  ***************************************************************************/
 
@@ -209,7 +221,7 @@ distance(struct Coord, struct Coord);
  ****************************************************************************/
 
 double
-roundTrip(union Permuter *, int);
+roundTrip(union Permuter *, struct Dtype);
 /***************************************************************************
  * Calculates the round trip distance between a set of cities
  * =========================================================================
@@ -217,8 +229,8 @@ roundTrip(union Permuter *, int);
  * union Permuter *: the Permuter containing the data
  * ----------------
  *
- * int: the type of Permuter: STRING_ARRAY | CITY_STRUCT
- * ---
+ * struct Dtype: structure holding the type of data structure and size
+ * ------------  type := STRING_ARRAY | CITY_STRUCT
  *
  * RETURN VALUE: double as round trip distance
  * ------------
@@ -226,7 +238,7 @@ roundTrip(union Permuter *, int);
  ***************************************************************************/
 
 void
-checkRoute(union Permuter *, int);
+checkRoute(union Permuter *, struct Dtype);
 /***************************************************************************
  * Calculates the distance between the sets of cities and keeps
  * track of the shortest route; called as a callback if called at all.
@@ -235,13 +247,13 @@ checkRoute(union Permuter *, int);
  * union Permuter *: the Permuter containing the data
  * ----------------
  *
- * int: type of Permuter: STRING_ARRY | CITY_STRUCT
- * ---
+ * struct Dtype: structure holding the type of data structure and size
+ * ------------  type := STRING_ARRAY | CITY_STRUCT
  *
  ***************************************************************************/
 
 void
-doNothing(union Permuter *, int);
+doNothing(union Permuter *, struct Dtype);
 /***************************************************************************
  * Callback that does nothing
  * =========================================================================
@@ -249,7 +261,7 @@ doNothing(union Permuter *, int);
  * union Permuter *:
  * ----------------
  *
- * int: type of Permuter
- * ---
+ * struct Dtype:
+ * ------------
  *
  ***************************************************************************/

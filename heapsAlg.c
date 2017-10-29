@@ -1,6 +1,6 @@
 /*
  * Heap's Algorithm
- * heapsAlg.c  Version 1.1_a
+ * heapsAlg.c  Version 1.1_b
  * 2017-10-28
  *
  */
@@ -34,21 +34,21 @@ isodd(int);
  * permutation.
  ***************************************************************************/
 int
-permute(int n, union Permuter *permuter, int ptype, void (*cb)(union Permuter *, int)) {
+permute(int n, union Permuter *permuter, struct Dtype dtype, void (*cb)(union Permuter *, struct Dtype)) {
 
   static int permutations = 0;
   
   if (n == 1) {
     permutations++;
-    (*cb)(permuter, ptype);
+    (cb)(permuter, dtype);
   }
 
   else {
     for (int i = 0; i < n - 1; i++) {
-      permute(n - 1, permuter, ptype, cb);
-      swap( isodd(n) ? 0 : i, n - 1, permuter, ptype);
+      permute(n - 1, permuter, dtype, cb);
+      swap( isodd(n) ? 0 : i, n - 1, permuter, dtype.dtype);
     }
-    permute(n - 1, permuter, ptype, cb);
+    permute(n - 1, permuter, dtype, cb);
   }
   return permutations;
 } /* permute() */
@@ -95,12 +95,12 @@ isodd(int a) {
  * this will print out the contents of the data set for visual inspection
  ***************************************************************************/
 void
-display(union Permuter *p, int ptype) {
+display(union Permuter *p, struct Dtype dtype) {
   char **s;
   struct City *c;
   
-  int size = p->size;
-  switch (ptype) {
+  int size = dtype.size;
+  switch (dtype.dtype) {
 
   case STRING_ARRAY:
     s = p->cities_arr;
@@ -108,6 +108,7 @@ display(union Permuter *p, int ptype) {
     for (int i = 0; i < size; i++)
       printf("%s%s", i>0?", ":"",s[i]);
     printf("]\n");
+    break;
 
   case CITY_STRUCT:
     c = p->cities_str;
@@ -115,5 +116,6 @@ display(union Permuter *p, int ptype) {
     for (int i = 0; i < size; i++)
       printf("%s%s, %s", i>0?", ":"", c[i].name, c[i].state);
     printf("]\n");
+    break;
   }
 } /* display() */

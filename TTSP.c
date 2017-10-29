@@ -9,9 +9,6 @@
 #include <stdio.h>
 #include "ttsp.h"
 
-#define CITIES 4 /* number of data items in the original problem */
-#define CITIES_SIZE 115475 /* number of data items in usa115475 files */
-
 static struct City CitiesSmallSet[] =
   {
     {"Denver",         "CO", {500.0, 500.0}},
@@ -37,39 +34,45 @@ struct City *setOfCities;
 
 int main(int argc, char *argv[]) {
   int result, data_set, data_set_size;
+  struct Dtype dtype;
 
   /* be default, run the small data set */
-  data_set = RUN_SMALL_DATA_SET;
+  data_set = STRING_ARRAY;
   data_set_size = CITIES_SMALL;
 
   if (argc >= 2) {
     if (*argv[1] == 'L') { /* usage: `ttsp L' */
-      data_set = RUN_LARGE_DATA_SET;
+      data_set = CITY_STRUCT;
       data_set_size = CITIES_BIG;
       if (argc == 3)
         data_set_size = atoi(argv[2]);
     }
   }
 
+  dtype.dtype = data_set;
+  dtype.size = data_set_size;
+  
   switch (data_set) {
 
-  case RUN_SMALL_DATA_SET:
+  case STRING_ARRAY:
     
     /* a small default data set; see above */
     setOfCities = CitiesSmallSet;
-    result = doPermutations(data_set_size, STRING_ARRAY, display);
+    result = doPermutations(dtype, display);
     printf("Result: %d\n", result);
     break;
 
-  case RUN_LARGE_DATA_SET:
+  case CITY_STRUCT:
 
     /* a bigger data set from text file of 115,000 plus cities */
     setOfCities = malloc(sizeof(struct City) * CITIES_SIZE);
     result = loadCities();
     printf("loaded %d records into setOfCities\n", result);
-    result = doPermutations(data_set_size, CITY_STRUCT, checkRoute);
+    result = doPermutations(dtype, checkRoute);
     printf("Number of Permutations: %d\n", result);
     break;
   }
+
+  return EXIT_SUCCESS;
 
 } /* main() */

@@ -2,7 +2,7 @@
  * Traveling Salesman Problem (TSP)
  * 2017-10-28
  *
- * Version 0.4_c
+ * Version 0.4_d
  */
 
 #include <stdio.h>
@@ -26,19 +26,19 @@ shortestRoute = {NULL, DBL_MAX};
 
 
 int
-doPermutations (int numCities, int dtype, void (*cb)(union Permuter *, int)) {
+doPermutations (struct Dtype dtype, void (*cb)(union Permuter *, struct Dtype)) {
   int c, result;
-  char *cities[numCities]; /* variable length array */
+  char *cities[dtype.size]; /* variable length array */
   struct City *city;
 
   /* prepare the Permuter */
   permuter = malloc(sizeof(union Permuter)); /* declared in header */
-  permuter->size = numCities;
 
-  switch (dtype) {
+  switch (dtype.dtype) {
+
   case STRING_ARRAY:
     /* fill cities array with combined city names and state abbr's */
-    for (c = 0; c < numCities; c++) {
+    for (c = 0; c < dtype.size; c++) {
       cities[c] = malloc(sizeof(char) * MAX_NAME_SIZE);
       city = &setOfCities[c];
       /* 'city'  contains both  a  city name  and  state; catenate  them
@@ -49,18 +49,21 @@ doPermutations (int numCities, int dtype, void (*cb)(union Permuter *, int)) {
       strncat(cities[c], city->state, 2);
     }
     permuter->cities_arr = cities;
+    break;
+
   case CITY_STRUCT:
     permuter->cities_str = setOfCities;
+    break;
   } /* end switch dtype */
 
   /* now call  Heap's Algorithm  permute function; include the callback
      that will be called after every permutation */
-  result = permute(numCities, permuter, dtype, cb);
+  result = permute(dtype.size, permuter, dtype, cb);
 
   /* upon return, display shortest route information if it was calculated */
   if (shortestRoute.route != NULL) {
     printf("The shortest distance is: %.2f\n", shortestRoute.distance);
-    display(shortestRoute.route, numCities);
+    display(shortestRoute.route, dtype);
   }
 
   /* TODO: need to free all malloced memory */
@@ -110,16 +113,16 @@ lookup(char *city, int size) {
 
 
 double
-roundTrip(union Permuter *permuter, int ptype) {
+roundTrip(union Permuter *permuter, struct Dtype dtype) {
   int i, n;
   double roundTripDistance = 0;
   struct City *tripset_str, *city1, *city2;
   char **tripset_arr;
 
-  n = permuter->size;
+  n = dtype.size;
   if (n == 1) return 0;
 
-  switch (ptype) {
+  switch (dtype.dtype) {
   case STRING_ARRAY:
     tripset_arr = permuter->cities_arr;
     for (i = 1; i < n; i++) {
@@ -154,8 +157,8 @@ roundTrip(union Permuter *permuter, int ptype) {
 
 
 void
-checkRoute(union Permuter *permuter, int ptype) {
-  double distance = roundTrip(permuter, ptype);
+checkRoute(union Permuter *permuter, struct Dtype dtype) {
+  double distance = roundTrip(permuter, dtype);
 
   if (distance < shortestRoute.distance) {
     shortestRoute.distance = distance;
@@ -165,5 +168,5 @@ checkRoute(union Permuter *permuter, int ptype) {
 
 
 void
-doNothing(union Permuter *nada, int empty) {}
+doNothing(union Permuter *nada, struct Dtype empty) {}
 /* doNothing() */
