@@ -2,8 +2,8 @@
  * ttsp.h
  * The Traveling Salesman Problem (TTSP)
  * header file
- * version 0.5_b
- * 2017-10-28
+ * version 1.0
+ * 2017-10-29
  */
 
 #define MAX_NAME_SIZE 0x20 /* max size of city name */
@@ -150,15 +150,17 @@ doPermutations (struct Dtype, void (*)(union Permuter *, struct Dtype));
  *
  ***************************************************************************/
 
-struct Route
+struct Route *
 nearestNeighborSearch(struct Dtype);
 /***************************************************************************
  * Routine to calculate nearest neighbor solution to The Traveling Salesman
  * Problem.
  * =========================================================================
  *
- * struct Dtype: structure containing the type of data structure use, and
- * ------------  its size.  Type := STRING_ARRAY | CITY_STRUCT
+ * struct Dtype: structure containing the type of data structure used, and
+ * ------------  its size.  Type := STRING_ARRAY | CITY_STRUCT; for the
+ *               Nearest Neighbor Problem, will always use a CITY_STRUCT,
+ *               but it would be possible to use a STRING_ARRAY.
  *
  * RETURN VALUE: a struct Route containing a Permuter struct City * path
  * ------------  and total distance for Nearest Neighbor path.
@@ -283,7 +285,7 @@ doNothing(union Permuter *, struct Dtype);
  ***************************************************************************/
 
 void
-exchange(struct City *cities1[], struct City *cities2[], int *i, int *j, int *k);
+exchange(struct City *cities1, struct City *cities2, int *i, int *j, int *k);
 /***************************************************************************
  * cities1 is the path being created; cities2 is the source of cities;
  * i is the current length of cities1; j is the city in cities2 to be moved

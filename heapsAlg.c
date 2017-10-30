@@ -1,7 +1,7 @@
 /*
  * Heap's Algorithm
- * heapsAlg.c  Version 1.2
- * 2017-10-28
+ * heapsAlg.c  Version 2.0
+ * 2017-10-29
  *
  */
 
@@ -20,18 +20,18 @@ isodd(int);
 /*****************************************************************/
 
 
-
 /***************************************************************************
  * Heap's Algorithm for permuting a set;
  * =====================================
- * n is  the size of the  current data set; the  data set must be  a list of
- * strings, with the final element in the set a NULL value.  This allows for
- * variable-sized sets to be sent in.  Takes a function pointer as the final
- * argument  as a  callback; this  function makes  a call  with the  current
- * permutation as  its argument.  In  the normal this can  be a call  to the
- * display()  function to  print out  the  permutation, or  it can  be to  a
- * function  that   peforms  some  kind   of  calculation  on   the  current
- * permutation.
+ * n is the size  of the current data set; the data  set can be either
+ * an array of strings, in which case display only should be chosen as
+ * the callback,  or it  can be  a set  of city  and state  names with
+ * coordinates housed  in an array  of City struct elements  that will
+ * allow efficient distance calculations.  The callback checkRoute can
+ * be used  to solve  the Traveling Salesman  Problem by  passing only
+ * pointers.   Takes a  function pointer  as the  final argument  as a
+ * callback; this function  makes a call with  the current permutation
+ * as its argument.
  ***************************************************************************/
 int
 permute(int n, union Permuter *permuter, struct Dtype dtype, void (*cb)(union Permuter *, struct Dtype)) {
@@ -110,7 +110,7 @@ display(union Permuter *p, struct Dtype dtype) {
     printf("]\n");
     break;
 
-  case CITY_STRUCT:
+  case CITY_STRUCT: case NEAREST_NEIGHBOR:
     c = p->cities_str;
     printf("[");
     for (int i = 0; i < size; i++)
