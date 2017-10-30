@@ -1,7 +1,7 @@
 /*
  * Heap's Algorithm
- * heapsAlg.c  Version 1.2
- * 2017-10-28
+ * heapsAlg.c  Version 2.0
+ * 2017-10-29
  *
  */
 
@@ -18,7 +18,6 @@ swap(int, int, union Permuter *, int);
 int
 isodd(int);
 /*****************************************************************/
-
 
 
 /***************************************************************************
@@ -110,7 +109,7 @@ display(union Permuter *p, struct Dtype dtype) {
     printf("]\n");
     break;
 
-  case CITY_STRUCT:
+  case CITY_STRUCT: case NEAREST_NEIGHBOR:
     c = p->cities_str;
     printf("[");
     for (int i = 0; i < size; i++)

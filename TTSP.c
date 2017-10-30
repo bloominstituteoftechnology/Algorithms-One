@@ -1,8 +1,8 @@
 /*
  * The Traveling Salesman Problem (TTSP)
  * TTSP.c main()
- * version 0.5_b
- * 2017-10-28
+ * version 1.0
+ * 2017-10-29
  */
 
 #include <stdlib.h>
@@ -121,9 +121,9 @@ int main(int argc, char *argv[]) {
       printf("Number of Permutations: %d\n", result);
 
     } else { /* case NEAREST_NEIGHBOR */
-      fprintf(stderr, "NEAREST NEIGHBOR algorithm not implemented yet\n");
-      struct Route nearestNeighborRoute = nearestNeighborSearch(dtype);
-      display(nearestNeighborRoute.route, dtype);
+      struct Route *nearestNeighborRoute = nearestNeighborSearch(dtype);
+      printf("Total distance = %.2f\n", nearestNeighborRoute->distance);
+      display(nearestNeighborRoute->route, dtype);
     }
     break;
   }
