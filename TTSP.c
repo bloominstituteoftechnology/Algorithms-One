@@ -1,13 +1,20 @@
 /*
  * The Traveling Salesman Problem (TTSP)
  * TTSP.c main()
- * version 0.5
+ * version 0.5_a
  * 2017-10-28
  */
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 #include "ttsp.h"
+
+extern char *optarg;
+extern int optind;
+extern int optopt;
+extern int opterr;
+extern int optreset;
 
 static struct City CitiesSmallSet[] =
   {
@@ -31,24 +38,64 @@ static struct City CitiesSmallSet[] =
  *****************************************************************/
 struct City *setOfCities;
 
+void
+usage(char *program) {
+  fprintf(stderr, "`%s'\nUSAGE: [-h] | [-l [num]] | [-n [num]]\n", program);
+}
 
 int main(int argc, char *argv[]) {
+
+  char *optstring;
+  int opt;
   int result, data_set, data_set_size;
   struct Dtype dtype;
 
-  /* be default, run the small data set */
-  data_set = STRING_ARRAY;
-  data_set_size = CITIES_SMALL;
+  optstring = ":hl:n:";
 
-  if (argc >= 2) {
-    if (*argv[1] == 'L') { /* usage: `ttsp L' */
+  if ((opt = getopt(argc, argv, optstring)) == -1) {
+
+    /* by default (no CL args), run the small data set */
+    data_set = STRING_ARRAY;
+    data_set_size = CITIES_SMALL;
+
+  } else {
+    switch (opt) {
+    case 'h': case '?':
+      usage(argv[0]);
+      exit(EXIT_SUCCESS);
+      break;
+    case ':':
+      switch (optopt) {
+      case 'l':
+        data_set = CITY_STRUCT;
+        data_set_size = CITIES_BIG;
+        break;
+      case 'n':
+        data_set = NEAREST_NEIGHBOR;
+        data_set_size = CITIES_BIG;
+        break;
+      default:
+        usage(argv[0]);
+        exit(EXIT_FAILURE);
+        break;
+      }
+      break;
+    case 'l':
       data_set = CITY_STRUCT;
-      data_set_size = CITIES_BIG;
-      if (argc == 3)
-        data_set_size = atoi(argv[2]);
+      data_set_size = atoi(optarg);
+      break;
+    case 'n':
+      data_set = NEAREST_NEIGHBOR;
+      data_set_size = atoi(optarg);
+      break;
     }
   }
 
+  if (data_set_size == 0) {
+    fprintf(stderr, "ERROR: Data set value is zero\n");
+    usage(argv[0]);
+    exit(EXIT_FAILURE);
+  }
   dtype.dtype = data_set;
   dtype.size = data_set_size;
   
@@ -62,17 +109,24 @@ int main(int argc, char *argv[]) {
     printf("Result: %d\n", result);
     break;
 
-  case CITY_STRUCT:
+  case CITY_STRUCT: case NEAREST_NEIGHBOR:
 
     /* a bigger data set from text file of 115,000 plus cities */
     setOfCities = malloc(sizeof(struct City) * CITIES_SIZE);
     result = loadCities();
     printf("loaded %d records into setOfCities\n", result);
-    result = doPermutations(dtype, checkRoute);
-    printf("Number of Permutations: %d\n", result);
+
+    if (data_set == CITY_STRUCT) {
+      result = doPermutations(dtype, checkRoute);
+      printf("Number of Permutations: %d\n", result);
+
+    } else { /* case NEAREST_NEIGHBOR */
+      fprintf(stderr, "NEAREST NEIGHBOR algorithm not implemented yet\n");
+    }
     break;
   }
 
   return EXIT_SUCCESS;
 
 } /* main() */
+

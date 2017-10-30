@@ -2,7 +2,7 @@
  * ttsp.h
  * The Traveling Salesman Problem (TTSP)
  * header file
- * version 0.5
+ * version 0.5_a
  * 2017-10-28
  */
 
@@ -13,6 +13,7 @@
 #define CITIES_BIG 10 /* number of data items to use from city text files */
 #define STRING_ARRAY 1 /* type of permuter: array of city names */
 #define CITY_STRUCT  2 /* type of permuter: struct City */
+#define NEAREST_NEIGHBOR 3
 
 struct Coord {
   double x;
