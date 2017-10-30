@@ -2,7 +2,7 @@
  * Traveling Salesman Problem (TSP)
  * 2017-10-28
  *
- * Version 0.5
+ * Version 0.5_a
  */
 
 #include <stdio.h>
@@ -70,11 +70,67 @@ doPermutations (struct Dtype dtype, void (*cb)(union Permuter *, struct Dtype)) 
   return result;
 } /* doPermutations() */
 
+struct Route
+nearestNeighborSearch(struct Dtype dtype) {
+  double currentDistance, totalDistance, nearestDistanceSoFar;
+  int nearestNeighborSoFar;
+  int i, j, k, n;
+
+  struct Route nearestNeighborRoute;
+  union Permuter nearestNeighborPath;
+
+  n = dtype.size;
+  struct City *sourceCities[n];
+  struct City *path[n];
+
+  struct City *currentCity;
+  struct City *nextCity;
+  struct Coord currentCoord;
+  struct Coord nextCoord;
+
+  totalDistance = 0;
+  nearestDistanceSoFar = DBL_MAX;
+  nearestNeighborSoFar = -1;
+
+  i = 0;
+  j = 0;
+  k = n;
+
+  sourceCities[0] = setOfCities;
+  exchange(path, sourceCities, &i, &j, &k);
+
+  while (i < n) {
+    currentCity = path[i];
+    currentCoord = currentCity->coord;
+    for (j = 0; j < k; j++) {
+      nextCity = sourceCities[j];
+      nextCoord = nextCity->coord;
+      currentDistance = distance(currentCoord, nextCoord);
+      if (currentDistance < nearestDistanceSoFar) {
+        nearestDistanceSoFar = currentDistance;
+        nearestNeighborSoFar = k;
+      }
+    }
+    exchange(path, sourceCities, &i, &j, &k);
+    totalDistance += nearestDistanceSoFar;
+  }
+
+  nearestNeighborPath.cities_str = *path;
+  nearestNeighborRoute.route = &nearestNeighborPath;
+  nearestNeighborRoute.distance = totalDistance;
+  return nearestNeighborRoute;
+
+} /* nearestNeighborSearch() */
+
+void
+exchange(struct City *cities1[], struct City *cities2[], int *i, int *j, int *k) {
+  cities1[*i++] = cities2[*j];
+  cities2[*j] = cities2[--*k];
+} /* exchange() */
+
 
 double
 distance(struct Coord city1, struct Coord city2) {
-  /* struct City *city1_s = lookup(city1); */
-  /* struct City *city2_s = lookup(city2); */
   double dist_x = city2.x - city1.x;
   double dist_y = city2.y - city1.y;
   double dist = sqrt(dist_x * dist_x + dist_y * dist_y);

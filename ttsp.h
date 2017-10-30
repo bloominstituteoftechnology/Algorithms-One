@@ -2,7 +2,7 @@
  * ttsp.h
  * The Traveling Salesman Problem (TTSP)
  * header file
- * version 0.5_a
+ * version 0.5_b
  * 2017-10-28
  */
 
@@ -150,6 +150,21 @@ doPermutations (struct Dtype, void (*)(union Permuter *, struct Dtype));
  *
  ***************************************************************************/
 
+struct Route
+nearestNeighborSearch(struct Dtype);
+/***************************************************************************
+ * Routine to calculate nearest neighbor solution to The Traveling Salesman
+ * Problem.
+ * =========================================================================
+ *
+ * struct Dtype: structure containing the type of data structure use, and
+ * ------------  its size.  Type := STRING_ARRAY | CITY_STRUCT
+ *
+ * RETURN VALUE: a struct Route containing a Permuter struct City * path
+ * ------------  and total distance for Nearest Neighbor path.
+ * 
+ ***************************************************************************/
+
 int
 loadCities(void);
 /***************************************************************************
@@ -265,4 +280,30 @@ doNothing(union Permuter *, struct Dtype);
  * struct Dtype:
  * ------------
  *
+ ***************************************************************************/
+
+void
+exchange(struct City *cities1[], struct City *cities2[], int *i, int *j, int *k);
+/***************************************************************************
+ * cities1 is the path being created; cities2 is the source of cities;
+ * i is the current length of cities1; j is the city in cities2 to be moved
+ * into cities1; k is the length of cities2.  This routine moves a city
+ * from cities2 into cities1, then fills in the hole by moving the last
+ * city in cities2 into the slot just vacated by k.
+ * =========================================================================
+ *
+ * struct City cities1: path of cities being created
+ * -------------------
+ *
+ * struct City cities2: source of cities being moved into cities1
+ * -------------------
+ * 
+ * int i: length of cities1
+ * -----
+ *
+ * int j: source city to move into cities1
+ * -----
+ * 
+ * int k: length of cities2
+ * -----
  ***************************************************************************/

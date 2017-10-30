@@ -1,7 +1,7 @@
 /*
  * The Traveling Salesman Problem (TTSP)
  * TTSP.c main()
- * version 0.5_a
+ * version 0.5_b
  * 2017-10-28
  */
 
@@ -122,6 +122,8 @@ int main(int argc, char *argv[]) {
 
     } else { /* case NEAREST_NEIGHBOR */
       fprintf(stderr, "NEAREST NEIGHBOR algorithm not implemented yet\n");
+      struct Route nearestNeighborRoute = nearestNeighborSearch(dtype);
+      display(nearestNeighborRoute.route, dtype);
     }
     break;
   }
