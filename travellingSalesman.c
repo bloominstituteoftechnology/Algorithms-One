@@ -60,6 +60,12 @@ doPermutations (struct Dtype dtype, void (*cb)(union Permuter *, struct Dtype)) 
      that will be called after every permutation */
   result = permute(dtype.size, permuter, dtype, cb);
 
+  /* free allocated memory before returning */
+  if (dtype.dtype == STRING_ARRAY)
+    for (c = 0; c < dtype.size; c++)
+      free(cities[c]);
+  free(permuter);
+
   /* upon return, display shortest route information if it was calculated */
   if (shortestRoute.route != NULL) {
     printf("The shortest distance is: %.2f\n", shortestRoute.distance);
@@ -79,7 +85,7 @@ nearestNeighborSearch(struct Dtype dtype) {
   /* nearestNeighborRoute will hold the solution (path and distance)
      to the Nearest Neighbor Problem;
      nearestNeighborPath will hold the solution path and will go
-     isnide nearestNeighborRoute; */
+     inside nearestNeighborRoute; */
   struct Route *nearestNeighborRoute = malloc(sizeof(struct Route));
   union Permuter *nearestNeighborPath = malloc(sizeof(union Permuter));
 

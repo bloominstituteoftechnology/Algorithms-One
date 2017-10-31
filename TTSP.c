@@ -124,7 +124,13 @@ int main(int argc, char *argv[]) {
       struct Route *nearestNeighborRoute = nearestNeighborSearch(dtype);
       printf("Total distance = %.2f\n", nearestNeighborRoute->distance);
       display(nearestNeighborRoute->route, dtype);
+
+      /* free allocated memory for the nearestNeighborRoute */
+      free(nearestNeighborRoute->route->cities_str); /* path */
+      free(nearestNeighborRoute->route); /* nearestNeighborPath */
+      free(nearestNeighborRoute);
     }
+    free(setOfCities);
     break;
   }
 
