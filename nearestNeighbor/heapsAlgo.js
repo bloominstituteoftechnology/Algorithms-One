@@ -10,7 +10,7 @@ const cities = require('./cities');
 const Cities = cities.Cities;
 const distance = require('./distance');
 const distanceBetween = distance.distanceBetween;
-let max = Number.MAX_SAFE_INTEGER;
+let max = Number.MAX_VALUE;
 let count = 0;
 
 const nextElement = (n, set) => {
@@ -25,23 +25,23 @@ const nextElement = (n, set) => {
         distance += distanceBetween(Cities[set[i]], Cities[set[i + 1]]);
       }
     }
-    if (distance <= max) {
+    if (distance < max) {
       console.log(`${JSON.stringify(count).padStart(2)}.) The TOTAL distance from ${Cities[set[0]].name} to ${Cities[set[1]].name} to ${Cities[set[2]].name} to ${Cities[set[3]].name} and back = ${distance.toFixed(2)}`);
       max = distance;
     }
   }
   else {
-    for(let i = 0; i < n-1 ; i++) {
+    for(let i = 0; i < n - 1 ; i++) {
       nextElement(n - 1, set);
-      if(n%2===0) {
+      if(n % 2 === 0) {
         let x = set[i];
-        set[i] = set[n-1];
-        set[n-1] = x;
+        set[i] = set[n - 1];
+        set[n - 1] = x;
       }
       else {
         let x = set[0];
-        set[0] = set[n-1];
-        set[n-1] = x;
+        set[0] = set[n - 1];
+        set[n - 1] = x;
       }
     }
     nextElement(n - 1, set);

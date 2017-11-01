@@ -16,8 +16,8 @@ const Cities = cities.Cities;
 const distance = require('./distance');
 const distanceBetween = distance.distanceBetween;
 
-let max = Number.MAX_SAFE_INTEGER;
-// console.log('max safe number:', max);
+let max = Number.MAX_VALUE;
+// console.log('max JS value:', max);
 
 let count = 0;
 
