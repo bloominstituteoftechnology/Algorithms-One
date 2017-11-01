@@ -1,8 +1,8 @@
 /*
  * nearestNeighbor.c
  * The Traveling Salesman Problem (TTSP)
- * Version 1.0_a
- * 2017-10-31
+ * Version 1.0_b
+ * 2017-11-01
 */
 
 #include <stdlib.h>
@@ -17,38 +17,53 @@ extern struct City *setOfCities;
 
 struct Route *
 nearestNeighborSearch(struct Dtype dtype) {
+  int c, n;
+  double pathDistance, shortestDistance;
+  struct Route *nearestNeighborRoute;
+
+  n = dtype.size; /* number of cities to iterate over */
+  struct City sourceCities[n];
+  struct City path[n];
+  struct City *shortestPath = malloc(sizeof(struct City) * n);
+
+  shortestDistance = DBL_MAX;
+  for (c = 0; c < n; c++) {
+    /* start with a fresh copy of cities */
+    memcpy(sourceCities, setOfCities, (sizeof(struct City) * n));
+    /* start with the next city */
+    exchange(path, sourceCities, 0, c, n);
+    /* calculate complete Nearest Neighbor solution for this starting city */
+    pathDistance = nn(path, sourceCities, n);
+    if (pathDistance < shortestDistance) {
+      shortestDistance = pathDistance;
+      /* keep a copy of the current shortest path */
+      memcpy(shortestPath, path, sizeof(struct City) * n);
+    }
+  }
+
+  /* return the solution */
+  nearestNeighborRoute = malloc(sizeof(struct Route));
+  nearestNeighborRoute->route = malloc(sizeof(union Permuter));
+  nearestNeighborRoute->route->cities_str = shortestPath;
+  nearestNeighborRoute->distance = shortestDistance;
+  return nearestNeighborRoute;
+
+} /* nearestNeighborSearch() */
+
+double
+nn(struct City *path, struct City *sourceCities, int n) {
   double currentDistance, totalDistance, nearestDistanceSoFar;
   int nearestNeighborSoFar;
-  int i, j, k, n;
-
-  /* nearestNeighborRoute will hold the solution (path and distance)
-     to the Nearest Neighbor Problem;
-     nearestNeighborPath will hold the solution path and will go
-     inside nearestNeighborRoute; */
-  struct Route *nearestNeighborRoute = malloc(sizeof(struct Route));
-  union Permuter *nearestNeighborPath = malloc(sizeof(union Permuter));
+  int i, j, k;
 
   struct City currentCity;
   struct City nextCity;
   struct Coord currentCoord;
   struct Coord nextCoord;
 
-  n = dtype.size;
-  i = 0;
-  j = 0;
-  k = n;
-
-  /* sourceCities will be a mutable copy (not alias) of the source cities */
-  struct City sourceCities[n];
-  memcpy(sourceCities, setOfCities, (sizeof(struct City) * n));
-
-  /* path will hold the solution path to the Nearest Neighbor Problem, and
-     go inside nearestNeighborPath at the end; */
-  struct City *path = malloc(sizeof(struct City) * n);
-
-  /* place the first city inside path; then calculate nearest neighbors
-     from that starting point */
-  exchange(path, sourceCities, &i, &j, &k);
+  i = 1;     /* index into path; already has the first city in it */
+  j = 0;     /* index into sourceCities; start at zero */
+  k = n - 1 ; /* number of cities in source; one has been moved out */
   totalDistance = 0;
 
   /* Nearest Neighbor Algorithm */
@@ -68,14 +83,16 @@ nearestNeighborSearch(struct Dtype dtype) {
         nearestNeighborSoFar = j;
       }
     }
-    exchange(path, sourceCities, &i, &j, &k);
+    exchange(path, sourceCities, i, nearestNeighborSoFar, k);
+    i++; k--;
     totalDistance += nearestDistanceSoFar;
   }
+  currentCity = path[n-1];
+  currentCoord = currentCity.coord;
+  nextCity = path[0];
+  nextCoord = nextCity.coord;
+  currentDistance = distance(currentCoord, nextCoord);
+  totalDistance += currentDistance;
+  return totalDistance;
+} /* nn */
 
-  /* return the solution */
-  nearestNeighborPath->cities_str = path;
-  nearestNeighborRoute->route = nearestNeighborPath;
-  nearestNeighborRoute->distance = totalDistance;
-  return nearestNeighborRoute;
-
-} /* nearestNeighborSearch() */

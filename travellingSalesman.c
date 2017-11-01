@@ -1,8 +1,8 @@
 /*
  * travellingSalesman.c
  * The Traveling Salesman Problem (TTSP)
- * Version 1.0_a
- * 2017-10-31
+ * Version 1.0_b
+ * 2017-11-01
  */
 
 #include <stdio.h>
@@ -77,9 +77,9 @@ doPermutations (struct Dtype dtype, void (*cb)(union Permuter *, struct Dtype)) 
 } /* doPermutations() */
 
 void
-exchange(struct City *cities1, struct City *cities2, int *i, int *j, int *k) {
-  cities1[(*i)++] = cities2[*j];
-  cities2[*j] = cities2[--(*k)];
+exchange(struct City *cities1, struct City *cities2, int i, int j, int k) {
+  cities1[i] = cities2[j];
+  cities2[j] = cities2[k-1];
 } /* exchange() */
 
 

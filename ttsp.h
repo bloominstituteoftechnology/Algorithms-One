@@ -2,8 +2,8 @@
  * ttsp.h
  * The Traveling Salesman Problem (TTSP)
  * header file
- * version 1.0
- * 2017-10-29
+ * version 1.0_a
+ * 2017-10-31
  */
 
 #define MAX_NAME_SIZE 0x20 /* max size of city name */
@@ -285,7 +285,7 @@ doNothing(union Permuter *, struct Dtype);
  ***************************************************************************/
 
 void
-exchange(struct City *cities1, struct City *cities2, int *i, int *j, int *k);
+exchange(struct City *, struct City *, int, int, int);
 /***************************************************************************
  * cities1 is the path being created; cities2 is the source of cities;
  * i is the current length of cities1; j is the city in cities2 to be moved
@@ -294,18 +294,41 @@ exchange(struct City *cities1, struct City *cities2, int *i, int *j, int *k);
  * city in cities2 into the slot just vacated by k.
  * =========================================================================
  *
- * struct City cities1: path of cities being created
- * -------------------
+ * struct City *: path of cities being created
+ * -------------
  *
- * struct City cities2: source of cities being moved into cities1
- * -------------------
+ * struct City *: source of cities being moved into cities1
+ * -------------
  * 
- * int i: length of cities1
- * -----
+ * int: length of cities1
+ * ---
  *
- * int j: source city to move into cities1
- * -----
+ * int: source city to move into cities1
+ * ---
  * 
- * int k: length of cities2
- * -----
+ * int: length of cities2
+ * ---
+ *
+ ***************************************************************************/
+
+double
+nn(struct City *, struct City *, int);
+/***************************************************************************
+ * The bare nearest neighbor routine; it receives a path with the first city
+ * inside, and the remaining cities to iterate over in another structure,
+ * and returns the total distance for the shortest route found.
+ * =========================================================================
+ *
+ * struct City *: the shortest path found; originally has the starting city
+ * -------------
+ * 
+ * struct City *: the source cities to find paths to; originally all except
+ * -------------  the first city;
+ *
+ * int: the total number of cities
+ * ---
+ *
+ * RETURN VALUE: the shortest distance found for this set of cities
+ * ------------
+ *
  ***************************************************************************/
