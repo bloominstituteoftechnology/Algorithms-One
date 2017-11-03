@@ -1,8 +1,8 @@
 /*
  * The Traveling Salesman Problem (TTSP)
  * TTSP.c main()
- * version 1.0
- * 2017-10-29
+ * version 1.0_b
+ * 2017-11-03
  */
 
 #include <stdlib.h>
@@ -39,6 +39,9 @@ static struct City CitiesSmallSet[] =
 struct City *setOfCities;
 
 void
+freeup(struct Route *);
+
+void
 usage(char *program) {
   fprintf(stderr, "`%s'\nUSAGE: [-h] | [-l [num]] | [-n [num]]\n", program);
 }
@@ -46,19 +49,24 @@ usage(char *program) {
 int main(int argc, char *argv[]) {
 
   char *optstring;
-  int opt;
+  int opt, knn;
   int result, data_set, data_set_size;
   struct Dtype dtype;
 
-  optstring = ":hl:n:";
+  /* -l [num] := Heap's Alg (default 10)
+   * -n [num] := Nearest Neighbor Alg (default 10)
+   * -k [num] := k-NN Alg (default 2)
+   */
+  optstring = ":hl:n:k:";
 
-  if ((opt = getopt(argc, argv, optstring)) == -1) {
+  /* by default (no CL args), run the small data set
+   * and knn == 1 */
+  data_set = STRING_ARRAY;
+  data_set_size = CITIES_SMALL;
+  knn = 1;
 
-    /* by default (no CL args), run the small data set */
-    data_set = STRING_ARRAY;
-    data_set_size = CITIES_SMALL;
+  while ((opt = getopt(argc, argv, optstring)) != -1) {
 
-  } else {
     switch (opt) {
     case 'h': case '?':
       usage(argv[0]);
@@ -74,6 +82,9 @@ int main(int argc, char *argv[]) {
         data_set = NEAREST_NEIGHBOR;
         data_set_size = CITIES_BIG;
         break;
+      case 'k':
+        data_set = KNN;
+        knn = 2;
       default:
         usage(argv[0]);
         exit(EXIT_FAILURE);
@@ -88,6 +99,14 @@ int main(int argc, char *argv[]) {
       data_set = NEAREST_NEIGHBOR;
       data_set_size = atoi(optarg);
       break;
+    case 'k':
+      data_set = KNN;
+      knn = atoi(optarg);
+      if (knn <= 0 || knn > 8) {
+        usage(argv[0]);
+        fprintf(stderr, "knn == %d is not correct; should be 2 <= knn <= 8\n", knn);
+        exit(EXIT_FAILURE);
+      }
     }
   }
 
@@ -109,7 +128,7 @@ int main(int argc, char *argv[]) {
     printf("Result: %d\n", result);
     break;
 
-  case CITY_STRUCT: case NEAREST_NEIGHBOR:
+  case CITY_STRUCT: case NEAREST_NEIGHBOR: case KNN:
 
     /* a bigger data set from text file of 115,000 plus cities */
     setOfCities = malloc(sizeof(struct City) * CITIES_SIZE);
@@ -120,21 +139,28 @@ int main(int argc, char *argv[]) {
       result = doPermutations(dtype, checkRoute);
       printf("Number of Permutations: %d\n", result);
 
-    } else { /* case NEAREST_NEIGHBOR */
+    } else if (data_set == NEAREST_NEIGHBOR) {
       struct Route *nearestNeighborRoute = nearestNeighborSearch(dtype);
       printf("Total distance = %.2f\n", nearestNeighborRoute->distance);
       display(nearestNeighborRoute->route, dtype);
-
-      /* free allocated memory for the nearestNeighborRoute */
-      free(nearestNeighborRoute->route->cities_str); /* path */
-      free(nearestNeighborRoute->route); /* nearestNeighborPath */
-      free(nearestNeighborRoute);
+      freeup(nearestNeighborRoute);
+    } else { /* case KNN */
+      struct Route *nearestNeighborRoute = kNN(dtype, knn);
+      printf("Total distance = %.2f\n", nearestNeighborRoute->distance);
+      /* display(nearestNeighborRoute->route, dtype); */
+      freeup(nearestNeighborRoute);
     }
-    free(setOfCities);
-    break;
   }
 
   return EXIT_SUCCESS;
 
 } /* main() */
 
+void
+freeup(struct Route *nearestNeighborRoute) {
+  /* free allocated memory for the nearestNeighborRoute */
+  /* free(nearestNeighborRoute->route->cities_str); /\* path *\/ */
+  /* free(nearestNeighborRoute->route); /\* nearestNeighborPath *\/ */
+  free(nearestNeighborRoute);
+  free(setOfCities);
+}

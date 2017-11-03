@@ -2,8 +2,8 @@
  * ttsp.h
  * The Traveling Salesman Problem (TTSP)
  * header file
- * version 1.0_a
- * 2017-10-31
+ * version 1.0_b
+ * 2017-11-03
  */
 
 #define MAX_NAME_SIZE 0x20 /* max size of city name */
@@ -14,6 +14,7 @@
 #define STRING_ARRAY 1 /* type of permuter: array of city names */
 #define CITY_STRUCT  2 /* type of permuter: struct City */
 #define NEAREST_NEIGHBOR 3
+#define KNN 4
 
 struct Coord {
   double x;
@@ -332,3 +333,115 @@ nn(struct City *, struct City *, int);
  * ------------
  *
  ***************************************************************************/
+
+struct SortedCity {
+  struct City *city;
+  int position;
+  double distance;
+  struct SortedCity *next;
+};
+/***************************************************************************
+ * A node in an array of linked lists of cities sorted by distance from a
+ * reference city.  Each entry in the array represents the reference city;
+ * each entry in a node represents a city with a distance from the
+ * reference; the nodes are sorted by distance from the reference; there
+ * is only one node per couple, with the smaller index being the reference
+ * in every case.  A list of 1000 cities sorts in under a second; a list of
+ * 10,000 cities sorts in about ten minutes; quite O(n^2); consider
+ * saving the sorted items on disk.
+ * =========================================================================
+ *
+ * struct City *city: the City struct is the value of this node
+ * -----------------
+ *
+ * int position: the city's position in the main list of cities
+ * ------------
+ *
+ * double distance: this city's distance from its reference city
+ * ---------------
+ *
+ * struct SortedCity *next: a pointer to the next city in the sorted list
+ * ----------------------- in reference to the refernce city
+ *
+ ***************************************************************************/
+
+
+struct Route *
+kNN(struct Dtype, int);
+/***************************************************************************
+ * Main routine for k-NN algorithm; it first obtains a sorted list for this
+ * set of cities; then calculatest the shortest path by k-NN recursive
+ * searches.
+ * =========================================================================
+ *
+ * struct Dtype: contains the number of items to place into the list; could
+ * ------------  also in the future contain a list of random or picked
+ *               cities.
+ *
+ * int: the value for k in the k-NN search
+ * ---
+ *
+ * RETURN VALUE: a pointer to a Route structure containing the shortest
+ * ------------  route and its distance.
+ *
+ ***************************************************************************/
+
+
+struct SortedCity **
+sortByDistance(struct City *, int);
+/***************************************************************************
+ * Routine to produce an array of sorted lists of cities, sorted by distance
+ * in reference to a reference city; each array entry is a reference city,
+ * and the array entry contains a linked list to the other cities in
+ * sorted order.  There is only one entry per pair of cities, with the city
+ * of the smaller index being first.
+ * =========================================================================
+ *
+ * struct City *: the source list of cities to sort
+ * -------------
+ *
+ * int: the size of the list
+ * ---
+ *
+ * RETURN VALUE: an array of linked lists; each entry in the array is a city
+ * ------------  and each city is the head of a sorted linked list by
+ *               distance.
+ *
+ ***************************************************************************/
+
+
+void
+insertCity(struct SortedCity *, struct SortedCity *);
+/***************************************************************************
+ * Routine to insert a city into a linked list sorted by distance in
+ * reference to a reference city.
+ * =========================================================================
+ *
+ * struct Sorted City *: The head of the linked list into which the value
+ * --------------------  is to be inserted
+ *
+ * struct SortedCity *: The node to insert into the linked list.
+ * -------------------
+ *
+ ***************************************************************************/
+
+
+void
+printSortedCities(struct SortedCity **, int);
+/***************************************************************************
+ * A debugging tool; it prints the array of linked lists.
+ * =========================================================================
+ * 
+ * struct SortedCity **: the array of linked lists
+ * --------------------
+ * 
+ * int: size of array
+ * ---
+ *
+ ***************************************************************************/
+
+void
+kNNRecursive(int, struct City *, int, struct City *, int, struct Route *, int, struct SortedCity **);
+
+double
+calcRouteDistance(struct City *, int);
