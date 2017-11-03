@@ -1,7 +1,7 @@
 /*
   The Traveling Salesman Problem (TTSP)
   kNN.c
-  Version 0.1_a
+  Version 0.1_b
   2017-11-03
 */
 
@@ -16,23 +16,31 @@ extern struct City *setOfCities;
 
 struct Route *
 kNN(struct Dtype dtype, int knn) {
+  int n = dtype.size; /* size of list of cities */
+
   struct Route *kNNRoute = malloc(sizeof(struct Route)); /* solution */
   kNNRoute->route = malloc(sizeof(union Permuter));
   kNNRoute->route->cities_arr = malloc(sizeof(struct City));
   kNNRoute->distance = 0.0;
   /* all free'd in TTSP.c */
 
-  struct SortedCity **head; /* array of sorted linked lists, by distance */
-
-  int n = dtype.size; /* size of list of cities */
-
   /* list of cities obtained from master list in order; don't alias */
   struct City *sourceCities = calloc(n, sizeof(struct City));
   memcpy(sourceCities, setOfCities, sizeof(struct City) * n);
+  /* FREE *sourceCities */
 
-  /* first, sort the cities and place into an array of linked lists */
-  head = sortByDistance(sourceCities, n);
-  /* printSortedCities(head, n); */
+  /* ++++++++++++++ for Debugging ++++++++++++++++++++++ */
+  double initialDistance = calcRouteDistance(sourceCities, n);
+  union Permuter p = {.cities_str = sourceCities};
+  struct Dtype d = {CITY_STRUCT, 10};
+  display(&p, d);
+  printf("initial route distance is %.2f\n", initialDistance);
+  /* hand-checked ok */
+  /* +++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+  /* array of sorted linked lists, by distance */
+  struct SortedCity **head = sortByDistance(sourceCities, n);
+  printSortedCities(head, n);
 
   struct City *left = calloc(n, sizeof(struct City));
   struct City *right = calloc(n, sizeof(struct City));
@@ -72,5 +80,23 @@ kNNRecursive(int knn,
 
 double
 calcRouteDistance(struct City *path, int size) {
-  return 0;
+  int i;
+  double dist = 0.0;
+  struct City *firstCity;
+  struct City *nextCity;
+
+  firstCity = &path[0];
+  /* printCity(firstCity); */
+  for (i = 1; i < size; i++) {
+    nextCity = &path[i];
+    dist += distance(firstCity->coord, nextCity->coord);
+    /* printCity(nextCity); */
+    firstCity = nextCity;
+  }
+  firstCity = &path[0];
+  nextCity = &path[size-1];
+  dist += distance(firstCity->coord, nextCity->coord);
+  /* printCity(nextCity); */
+
+  return dist;
 }

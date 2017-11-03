@@ -1,7 +1,7 @@
 /*
  * Heap's Algorithm
- * heapsAlg.c  Version 2.0
- * 2017-10-29
+ * heapsAlg.c  Version 2.0_a
+ * 2017-11-03
  *
  */
 
@@ -114,7 +114,7 @@ display(union Permuter *p, struct Dtype dtype) {
     c = p->cities_str;
     printf("[");
     for (int i = 0; i < size; i++)
-      printf("%s%s, %s", i>0?", ":"", c[i].name, c[i].state);
+      printf("%s(%s, %s)", i>0?", ":"", c[i].name, c[i].state);
     printf("]\n");
     break;
   }
