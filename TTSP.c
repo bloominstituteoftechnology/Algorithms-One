@@ -1,8 +1,8 @@
 /*
  * The Traveling Salesman Problem (TTSP)
  * TTSP.c main()
- * version 1.0_b
- * 2017-11-03
+ * version 1.0_c
+ * 2017-11-04
  */
 
 #include <stdlib.h>
@@ -147,7 +147,7 @@ int main(int argc, char *argv[]) {
     } else { /* case KNN */
       struct Route *nearestNeighborRoute = kNN(dtype, knn);
       printf("Total distance = %.2f\n", nearestNeighborRoute->distance);
-      /* display(nearestNeighborRoute->route, dtype); */
+      display(nearestNeighborRoute->route, dtype);
       freeup(nearestNeighborRoute);
     }
   }
@@ -159,8 +159,8 @@ int main(int argc, char *argv[]) {
 void
 freeup(struct Route *nearestNeighborRoute) {
   /* free allocated memory for the nearestNeighborRoute */
-  /* free(nearestNeighborRoute->route->cities_str); /\* path *\/ */
-  /* free(nearestNeighborRoute->route); /\* nearestNeighborPath *\/ */
+  free(nearestNeighborRoute->route->cities_str); /* path */
+  free(nearestNeighborRoute->route); /* nearestNeighborPath */
   free(nearestNeighborRoute);
   free(setOfCities);
 }

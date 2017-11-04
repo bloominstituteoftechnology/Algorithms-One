@@ -1,9 +1,11 @@
 /* 
- * ttsp.h
  * The Traveling Salesman Problem (TTSP)
- * header file
- * version 1.0_b
- * 2017-11-03
+ * ttsp.h
+ * ------
+ * TTSP Header file
+ *
+ * version 1.0_c
+ * 2017-11-04
  */
 
 #define MAX_NAME_SIZE 0x20 /* max size of city name */
@@ -440,8 +442,193 @@ printSortedCities(struct SortedCity **, int);
  *
  ***************************************************************************/
 
+
 void
-kNNRecursive(int, struct City *, int, struct City *, int, struct Route *, int, struct SortedCity **);
+printPath(struct City *, int);
+/***************************************************************************
+ * Prints a set of cities in a path
+ * =========================================================================
+ * struct City *: the path to print
+ * -------------
+ *
+ * int: size of path
+ * ---
+ *
+ ***************************************************************************/
+
+
+void
+kNNRecursive(int,
+             struct City *, int, struct City *, int,
+             struct Route *, int, struct SortedCity **);
+/***************************************************************************
+ * Recurses into a solution; at the base case (right is length zero), it
+ * calculates the overall route distance and stores the smallest route found
+ * so far.
+ * =========================================================================
+ *
+ * int: current value of knn (less one)
+ * ---
+ *
+ * struct City *: left path; current route being built up
+ * -------------
+ *
+ * int: left size
+ * ---
+ *
+ * struct City *: right path; source cities left for building a path
+ * -------------
+ *
+ * int: right size
+ * ---
+ *
+ * struct Route *: best route found so far
+ * --------------
+ *
+ * int: best route size
+ * ---
+ *
+ * struct Sorted City **: array of linked lists containing sorted cities by
+ * ---------------------  from a reference city.
+ *
+ ***************************************************************************/
 
 double
 calcRouteDistance(struct City *, int);
+/***************************************************************************
+ * Given a path of cities, calculates the round trip distance
+ * =========================================================================
+ *
+ * struct City *: path of cities
+ * -------------
+ *
+ * int: size
+ * ---
+ *
+ * RETURN VALUE: distance
+ * ------------
+ *
+ ***************************************************************************/
+
+void
+getKthNeighbor(int,
+               struct City *, int *,
+               struct City *, int *,
+               struct SortedCity **, int);
+/***************************************************************************
+ * Given a city and a knn value, find that city's kth neighbor from the list
+ * of sorted cities.
+ * =========================================================================
+ *
+ * int: knn value (less one)
+ * ---
+ *
+ * struct City *: path left; the reference city is the last city in the path
+ * -------------
+ *
+ * int: size of left
+ * ---
+ *
+ * struct City *: path right; the source of cities to choose the kth neighbor
+ * -------------  from
+ *
+ * int: size of right
+ * ---
+ *
+ * struct SortedCity **: array of linked lists to find the kth neighbor
+ * --------------------  without a lot of searching and sorting
+ *
+ * int: size of array
+ * ---
+ *
+ ***************************************************************************/
+
+int
+compareCities(struct City *, struct City *);
+/***************************************************************************
+ * Given two cities, determine whether they are the same or not
+ * =========================================================================
+ *
+ * struct City *: city 1
+ * -------------
+ *
+ * struct City *: city 2
+ * -------------
+ *
+ * RETURN VALUE: 1 if two cities are the same; 0 if not
+ * ------------
+ *
+ ***************************************************************************/
+
+int
+findCityInSortedCities(struct City *, struct SortedCity **, int);
+/***************************************************************************
+ * Looks for a city in the SortedCity array; returns the city's index when
+ * found.
+ * =========================================================================
+ *
+ * struct City *: the city to look for
+ * -------------
+ *
+ * struct SortedCity **: the array of sorted cities
+ * --------------------
+ *
+ * int: the size of the array
+ * ---
+ *
+ * RETURN VALUE: the index of the found city; a fatal error if the city is
+ * ------------  not found.
+ *
+ ***************************************************************************/
+
+int
+findCityInPath(struct City *, struct City *, int);
+/***************************************************************************
+ * Looks for a city in a path
+ * =========================================================================
+ *
+ * struct City *: the city to look for
+ * -------------
+ *
+ * struct City *: the path to look in
+ * -------------
+ *
+ * int: the size of the path
+ * ---
+ *
+ * RETURN VALUE: the index of the path in which the city is found, or -1 if
+ * ------------  the city was not found
+ *
+ ***************************************************************************/
+
+struct City *
+deepCityCopy(struct City *, int);
+/***************************************************************************
+ * Makes a deep copy of a City path (each City is separately copied) to
+ * avoid aliasing the individual cities.
+ * =========================================================================
+ *
+ * struct City *: pointer to a City path to be copied
+ * -------------
+ *
+ * int: size of the path to be copied
+ * ---
+ *
+ * RETURN VALUE: pointer to a new City path copied from the original
+ * ------------
+ *
+ ***************************************************************************/
+
+void
+deepCityFree(struct City *, int);
+/***************************************************************************
+ * Frees a City path, including each City inside it
+ * =========================================================================
+ *
+ * struct City *: the City path to free
+ * -------------
+ *
+ * int: size
+ * ---
+ *
+ ***************************************************************************/

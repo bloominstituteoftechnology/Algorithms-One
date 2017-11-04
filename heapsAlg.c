@@ -1,6 +1,6 @@
 /*
  * Heap's Algorithm
- * heapsAlg.c  Version 2.0_a
+ * heapsAlg.c  Version 2.0_b
  * 2017-11-03
  *
  */
@@ -110,7 +110,7 @@ display(union Permuter *p, struct Dtype dtype) {
     printf("]\n");
     break;
 
-  case CITY_STRUCT: case NEAREST_NEIGHBOR:
+  case CITY_STRUCT: case NEAREST_NEIGHBOR: case KNN:
     c = p->cities_str;
     printf("[");
     for (int i = 0; i < size; i++)
