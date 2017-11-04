@@ -2,7 +2,7 @@
  * The Traveling Salesman Problem (TTSP)
  * kNN.c
  * Calculate TTSP by k-NN Recursive algorithm
- * Version 0.1_c
+ * Version 0.1_d
  * 2017-11-04
 */
 
@@ -77,6 +77,7 @@ kNNRecursive(int knn,
              struct SortedCity **head)
 {
   int k;
+  int new_left_size, new_right_size;
   double distance;
 
   struct City *newLeft;
@@ -94,10 +95,12 @@ kNNRecursive(int knn,
   } else {
     /* find kth neighbor routes at each iteration */
     for (k = 0; k < knn; k++) {
-      getKthNeighbor(k, left, &left_size, right, &right_size, head, size);
       newLeft = deepCityCopy(left, size);
+      new_left_size = left_size;
       newRight = deepCityCopy(right, size);
-      kNNRecursive(knn == 1 ? 1 : knn - 1, newLeft, left_size, newRight, right_size, bestRoute, size, head);
+      new_right_size = right_size;
+      getKthNeighbor(k, newLeft, &new_left_size, newRight, &new_right_size, head, size);
+      kNNRecursive(knn, newLeft, new_left_size, newRight, new_right_size, bestRoute, size, head);
       deepCityFree(newLeft, size);
       deepCityFree(newRight, size);
     }
@@ -172,8 +175,9 @@ getKthNeighbor(int k,
 
     j = findCityInPath(kthNeighbor->city, right, *right_size);
   } else j = 0;
-  
+
   exchange(left, right, (*left_size)++, j, (*right_size)--);
+
 } /* getKthNeighbor() */
 
 
