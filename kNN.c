@@ -1,8 +1,9 @@
 /*
  * The Traveling Salesman Problem (TTSP)
  * kNN.c
+ * -----
  * Calculate TTSP by k-NN Recursive algorithm
- * Version 0.1_e
+ * Version 1.0
  * 2017-11-05
 */
 

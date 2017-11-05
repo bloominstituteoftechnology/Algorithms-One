@@ -1,7 +1,7 @@
 /*
  * nearestNeighbor.c
  * The Traveling Salesman Problem (TTSP)
- * Version 1.0_c
+ * Version 2.0
  * 2017-11-05
 */
 

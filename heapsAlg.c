@@ -1,7 +1,7 @@
 /*
  * Heap's Algorithm
- * heapsAlg.c  Version 2.0_b
- * 2017-11-03
+ * heapsAlg.c  Version 3.0
+ * 2017-11-05
  *
  */
 

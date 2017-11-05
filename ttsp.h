@@ -4,7 +4,7 @@
  * ------
  * TTSP Header file
  *
- * version 1.0_d
+ * version 2.0
  * 2017-11-05
  */
 

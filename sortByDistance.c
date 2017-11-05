@@ -3,9 +3,8 @@
  * sortByDistance.c
  * ----------------
  * Prepare an array of linked lists of sorted cities
- *
- * Version 0.1_b
- * 2017-11-04
+ * Version 1.0
+ * 2017-11-05
 */
 
 #include <stdlib.h>

@@ -1,8 +1,8 @@
 /*
- * travellingSalesman.c
  * The Traveling Salesman Problem (TTSP)
- * Version 1.0_b
- * 2017-11-01
+ * travellingSalesman.c
+ * Version 2.0
+ * 2017-11-05
  */
 
 #include <stdio.h>
