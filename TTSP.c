@@ -1,8 +1,8 @@
 /*
  * The Traveling Salesman Problem (TTSP)
  * TTSP.c main()
- * version 1.0_c
- * 2017-11-04
+ * version 1.0_d
+ * 2017-11-05
  */
 
 #include <stdlib.h>
@@ -52,6 +52,7 @@ int main(int argc, char *argv[]) {
   int opt, knn;
   int result, data_set, data_set_size;
   struct Dtype dtype;
+  struct Route *nearestNeighborRoute;
 
   /* -l [num] := Heap's Alg (default 10)
    * -n [num] := Nearest Neighbor Alg (default 10)
@@ -124,43 +125,39 @@ int main(int argc, char *argv[]) {
     
     /* a small default data set; see above */
     setOfCities = CitiesSmallSet;
+    /* run Heap's Algorithm on the small data set */
     result = doPermutations(dtype, display);
     printf("Result: %d\n", result);
     break;
 
   case CITY_STRUCT: case NEAREST_NEIGHBOR: case KNN:
 
-    /* a bigger data set from text file of 115,000 plus cities */
+    /* a bigger  data set  from a  text file  of 115,000  plus cities;
+       setOfCities is a GLOBAL variable */
     setOfCities = malloc(sizeof(struct City) * CITIES_SIZE);
+    /* free'd below */
     result = loadCities();
     printf("loaded %d records into setOfCities\n", result);
 
+    /* run Heap's Algorithm on the large data set */
     if (data_set == CITY_STRUCT) {
       result = doPermutations(dtype, checkRoute);
       printf("Number of Permutations: %d\n", result);
-
-    } else if (data_set == NEAREST_NEIGHBOR) {
-      struct Route *nearestNeighborRoute = nearestNeighborSearch(dtype);
-      printf("Total distance = %.2f\n", nearestNeighborRoute->distance);
-      display(nearestNeighborRoute->route, dtype);
-      freeup(nearestNeighborRoute);
-    } else { /* case KNN */
-      struct Route *nearestNeighborRoute = kNN(dtype, knn);
-      printf("Total distance = %.2f\n", nearestNeighborRoute->distance);
-      display(nearestNeighborRoute->route, dtype);
-      freeup(nearestNeighborRoute);
+      return(EXIT_SUCCESS);
     }
-  }
 
-  return EXIT_SUCCESS;
+    /* run k-NN Algorithm or NN Algorithm on large data set */
+    nearestNeighborRoute = data_set == KNN ? kNN(dtype, knn) : nearestNeighborSearch(dtype);
+    printf("Shortest round-trip distance = %.2f\n", nearestNeighborRoute->distance);
+    printf("Total iterations = %d\n", nearestNeighborRoute->iterations);
+    if (dtype.size < 100) display(nearestNeighborRoute->route, dtype);
+
+    /* free allocated memory for the nearestNeighborRoute */
+    free(nearestNeighborRoute->route->cities_str); /* path */
+    free(nearestNeighborRoute->route); /* nearestNeighborPath */
+    free(nearestNeighborRoute);
+    free(setOfCities);
+  }
+  return(EXIT_SUCCESS);
 
 } /* main() */
-
-void
-freeup(struct Route *nearestNeighborRoute) {
-  /* free allocated memory for the nearestNeighborRoute */
-  free(nearestNeighborRoute->route->cities_str); /* path */
-  free(nearestNeighborRoute->route); /* nearestNeighborPath */
-  free(nearestNeighborRoute);
-  free(setOfCities);
-}

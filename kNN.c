@@ -2,8 +2,8 @@
  * The Traveling Salesman Problem (TTSP)
  * kNN.c
  * Calculate TTSP by k-NN Recursive algorithm
- * Version 0.1_d
- * 2017-11-04
+ * Version 0.1_e
+ * 2017-11-05
 */
 
 #include <stdlib.h>
@@ -23,42 +23,51 @@ kNN(struct Dtype dtype, int knn) {
   struct City *left; /* path used to build up a route */
   struct City *right; /* path used to build up a route */
 
-  /* holds the solution (shortest route and its distance) */
+  /* kNNRoute will hold  the solution to the TTSP  (shortest route and
+     round trip distance) */
   struct Route *kNNRoute = malloc(sizeof(struct Route));
   kNNRoute->route = malloc(sizeof(union Permuter));
-  /* all free'd in TTSP.c */
+  /* both free'd in TTSP.c */
 
   sourceCities = deepCityCopy(setOfCities, n);
 
-  /* array of sorted linked lists, each city sorted by distance from a
-     reference city*/
+  /* In an attempt to speed up  the algorithm, pre-sort all the cities
+     by distance from a reference  city; array of sorted linked lists,
+     each city sorted by distance from a reference city, an element in
+     the array;  head is  a pointer  to head  of the  array; n  is the
+     length of the array */
   struct SortedCity **head = sortByDistance(sourceCities, n);
-  printSortedCities(head, n);
+  /* printSortedCities(head, n); */
 
-  /* ++++++++++++++ for Debugging ++++++++++++++++++++++ */
+  /* Calculate the distance around the route without any sorting, then
+     use that value as the best route found so far */
   double initialDistance = calcRouteDistance(sourceCities, n);
   union Permuter p = {.cities_str = sourceCities};
   struct Dtype d = {CITY_STRUCT, n};
-  display(&p, d);
-  printf("initial route distance is %.2f\n", initialDistance);
+  if (n < 100) display(&p, d);
+  printf("initial route distance (alphbetical order) is %.2f\n", initialDistance);
   kNNRoute->route->cities_str = deepCityCopy(p.cities_str, n);
+  /* free'd in TTSP.c */
   kNNRoute->distance = initialDistance;
-  /* hand-checked ok */
-  /* +++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-  /* iterate over the source path placing each city at the beginning
-     of the route and then calculating the route distance by k-NN
-     recursive algorithm */
+  /* Beginning of  the k-NN  Algorithm for  solving the  TTSP; iterate
+     over the  source path placing each  city at the beginning  of the
+     route and then  calculating the route distance  by k-NN recursive
+     algorithm */
   for (i = 0; i < n; i++) {
     /* start with fresh copies of left and right */
+    /* left will contain cities in sorted order */
     left = calloc(n, sizeof(struct City)); /* initially empty */
+    /* right contains the cities remaining to be sorted */
     right = deepCityCopy(sourceCities, n); /* contains all cities */
     int left_size = 0;
     int right_size = n;
-    /* place city in right at index i into left at index 0 to initialize
-       route */
+
+    /* move a city from the right array found at index i into the left
+       array at index 0 to initialize route */
     exchange(left, right, left_size++, i, right_size--);
-    
+
+    /* Call the recursive algorithm with this setup */
     kNNRecursive(knn, left, left_size, right, right_size, kNNRoute, n, head);
     deepCityFree(right, n);
     deepCityFree(left, n);
@@ -76,15 +85,20 @@ kNNRecursive(int knn,
              struct Route *bestRoute, int size,
              struct SortedCity **head)
 {
-  int k;
+  static int count;
+  int k, this_knn;
   int new_left_size, new_right_size;
   double distance;
 
   struct City *newLeft;
   struct City *newRight;
 
+  count++;
+  this_knn = knn;
+
   if (right_size == 0) {
-    printPath(left, left_size);
+    bestRoute->iterations = count;
+    /* printPath(left, left_size); */
     distance = calcRouteDistance(left, left_size);
     if (distance < bestRoute->distance) {
       /* found a shorter route; place into bestRoute */
@@ -94,13 +108,13 @@ kNNRecursive(int knn,
     }
   } else {
     /* find kth neighbor routes at each iteration */
-    for (k = 0; k < knn; k++) {
+    for (k = 0; k < this_knn; k++) {
       newLeft = deepCityCopy(left, size);
       new_left_size = left_size;
       newRight = deepCityCopy(right, size);
       new_right_size = right_size;
       getKthNeighbor(k, newLeft, &new_left_size, newRight, &new_right_size, head, size);
-      kNNRecursive(knn, newLeft, new_left_size, newRight, new_right_size, bestRoute, size, head);
+      kNNRecursive(knn=1 ? 1 : knn-1, newLeft, new_left_size, newRight, new_right_size, bestRoute, size, head);
       deepCityFree(newLeft, size);
       deepCityFree(newRight, size);
     }
@@ -216,9 +230,7 @@ compareCities(struct City *city1, struct City *city2) {
 void
 printPath(struct City *path, int size) {
   int i;
-  static int c;
 
-  printf("[%d] ", c++);
   for (i = 0; i < size; i++) {
     printf("(%s, %s), ", path[i].name, path[i].state);
   }

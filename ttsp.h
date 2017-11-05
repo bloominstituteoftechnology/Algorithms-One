@@ -4,8 +4,8 @@
  * ------
  * TTSP Header file
  *
- * version 1.0_c
- * 2017-11-04
+ * version 1.0_d
+ * 2017-11-05
  */
 
 #define MAX_NAME_SIZE 0x20 /* max size of city name */
@@ -95,6 +95,7 @@ union Permuter {
 struct Route {
   union Permuter *route;
   double distance;
+  int iterations;
 };
 /***************************************************************************
  * The shortest route between cities
@@ -105,6 +106,9 @@ struct Route {
  * 
  * double distance: the shortest distance
  * ---------------
+ *
+ * int iterations: the number of iterations performed
+ * ______________
  *
  ***************************************************************************/
 
@@ -315,7 +319,7 @@ exchange(struct City *, struct City *, int, int, int);
  ***************************************************************************/
 
 double
-nn(struct City *, struct City *, int);
+nn(struct City *, struct City *, int, int *);
 /***************************************************************************
  * The bare nearest neighbor routine; it receives a path with the first city
  * inside, and the remaining cities to iterate over in another structure,
@@ -330,6 +334,9 @@ nn(struct City *, struct City *, int);
  *
  * int: the total number of cities
  * ---
+ *
+ * int *: iteration count variable
+ * -----
  *
  * RETURN VALUE: the shortest distance found for this set of cities
  * ------------
