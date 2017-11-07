@@ -1,8 +1,8 @@
 /*
  * loadCities.c
- * 2017-10-28
+ * 2017-11-06
  *
- * Version 0.4
+ * Version 1.0
  *
  * Load usa115475_cities_a.txt and usa115475.tsp
  * format for use by Traveling Salesman Problem
@@ -82,6 +82,8 @@ loadCities(void) {
     cityStr = malloc(sizeof(struct City));
     fillCity(city, city_name, cityStr);
     setOfCities[city_index++] = *cityStr;
+    free(cityStr);
+    /* FREE(*cityStr) */
   }
 
   if (result == -1)
@@ -91,6 +93,8 @@ loadCities(void) {
 
   printf("successfully loaded city data\n");
 
+  fclose(cities);
+  fclose(cities_names);
   return city_index;
 
   /* NOTE: free city data at conclusion */
@@ -157,7 +161,7 @@ fillCity(char *city, char *city_name, struct City *city_str) {
   int c, l;
   double x1, y1, x2, y2;
   struct Coord city_coord;
-  char name[BUFSIZE], county[BUFSIZE], state[2];
+  char name[MAX_NAME_SIZE], county[MAX_NAME_SIZE], state[3];
   char *n, *s;
 
   /* read the next line from city file */
@@ -173,17 +177,22 @@ fillCity(char *city, char *city_name, struct City *city_str) {
     fprintf(stderr, "Failed to read five numbers in city names; read %d %s\n", c, name);
     exit(EXIT_FAILURE);
   }
+  name[MAX_NAME_SIZE-1] = '\0';
+  county[MAX_NAME_SIZE-1] = '\0';
+  state[2] = '\0';
 
   /* check coordinates for equality */
   if (fabs(x1 - x2) > .01) {
     fprintf(stderr, "Different coordinates in line %d, city and state: %s, %s\n", l, name, state);
   }
 
-  n = malloc(strlen(name));
-  s = malloc(2);
+  n = malloc(sizeof(char) * strlen(name) + 1);
+  s = malloc(sizeof(char) * 3);
   /* TODO: free n & s */
-  strcpy(n, name);
-  strcpy(s, state);
+  strncpy(n, name, strlen(name));
+  n[strlen(name)] = '\0';
+  strncpy(s, state, 2);
+  s[2] = '\0';
 
   city_str->name = n;
   city_str->state = s;

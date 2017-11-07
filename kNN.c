@@ -3,8 +3,8 @@
  * kNN.c
  * -----
  * Calculate TTSP by k-NN Recursive algorithm
- * Version 1.0
- * 2017-11-05
+ * Version 1.1
+ * 2017-11-06
 */
 
 #include <stdlib.h>
@@ -74,6 +74,13 @@ kNN(struct Dtype dtype, int knn) {
     deepCityFree(left, n);
   }
   /* FREE *sourceCities: kNN.c 31 */
+  deepCityFree(sourceCities, n);
+
+  for (i = 0; i < n; i++) {
+    free((*head + i)->next);
+  }
+  free(*head);
+  free(head);
 
   return kNNRoute;
 } /* kNN() */
@@ -177,7 +184,7 @@ getKthNeighbor(int k,
 
   if (*right_size > 1) {
     i = findCityInSortedCities(refCity, head, size);
-    kthNeighbor = head[i]->next; /* first neighbor */
+    kthNeighbor = (*head + i)->next; /* first neighbor */
     j = stop = 0;
     while (stop == 0) {
       if (j >= k && findCityInPath(kthNeighbor->city, left, *left_size) == -1)
@@ -199,7 +206,7 @@ getKthNeighbor(int k,
 int
 findCityInSortedCities(struct City *city, struct SortedCity **head, int size) {
   int i = 0;
-  while (i < size && !compareCities(city, head[i]->city))
+  while (i < size && !compareCities(city, (*head + i)->city))
     i++;
 
   if (i == size) {

@@ -3,8 +3,8 @@
  * sortByDistance.c
  * ----------------
  * Prepare an array of linked lists of sorted cities
- * Version 1.0
- * 2017-11-05
+ * Version 1.1
+ * 2017-11-06
 */
 
 #include <stdlib.h>
@@ -18,33 +18,28 @@ sortByDistance(struct City *listOfCities, int size) {
   int i, j;
 
   struct SortedCity **head;     /* array of linked lists */
-  struct SortedCity *reference; /* linked list */
   struct SortedCity *nextCity;  /* link to next city */
 
   struct City city1; /* reference city */
   struct City city2; /* a neighbor of reference city */
 
   /* head of all linked lists */
-  head = calloc(size, sizeof(struct SortedCity));
+  head = calloc(1, sizeof(struct SortedCity));
+  *head = calloc(size,sizeof(struct SortedCity));
   /* FREE(**head) */
 
   /* use each city in path of cities as a reference city */
   for (i = 0; i < size; i++) {
-    reference = malloc(sizeof(struct SortedCity)); /* reference city */
     city1 = listOfCities[i]; /* for distance calculation */
-    reference->city = &listOfCities[i];
-    reference->position = i;
-    reference->distance = 0.0;
-    reference->next = NULL;
-
-    head[i] = reference; /* place reference into the array */
-    /* FREE(head[i]) */
+    (*head + i)->city = &listOfCities[i];
+    (*head + i)->position = i;
+    (*head + i)->distance = 0.0;
+    (*head + i)->next = NULL;
 
     for (j = 0; j < size; j++) {
       if (j == i) continue; /* skip over the same */
       /* to be inserted into city */
       nextCity = malloc(sizeof(struct SortedCity)); 
-      /* FREE(nextCity) */
       city2 = listOfCities[j]; /* for distance calculation */
       nextCity->city = &listOfCities[j];
       nextCity->position = j;
@@ -52,7 +47,7 @@ sortByDistance(struct City *listOfCities, int size) {
       nextCity->next = NULL;
 
       /* inserts nextCity into linked list in distance order */
-      insertCity(reference, nextCity);
+      insertCity((*head + i), nextCity);
     }
   }
 

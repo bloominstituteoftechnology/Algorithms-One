@@ -4,11 +4,11 @@
  * ------
  * TTSP Header file
  *
- * version 2.0
- * 2017-11-05
+ * version 2.1
+ * 2017-11-06
  */
 
-#define MAX_NAME_SIZE 0x20 /* max size of city name */
+#define MAX_NAME_SIZE 0x40 /* max size of city name */
 #define READ "r"
 #define CITIES_SMALL 4 /* number of data items in the original problem */
 #define CITIES_SIZE 115475 /* number of cities in the usa city text files */
